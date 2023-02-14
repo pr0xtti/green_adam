@@ -1,0 +1,28 @@
+version: "3"
+
+services:
+  svc:
+    container_name: "greenadam-services"
+    build:
+      dockerfile: ./Dockerfile
+    depends_on:
+      - pg
+    volumes:
+      - ./:/app
+  pg:
+    image: postgres
+    container_name: "greenadam-postgres"
+    restart: unless-stopped
+    environment:
+      POSTGRES_DB: "green"
+      POSTGRES_USER: "adam"
+      POSTGRES_PASSWORD: "holdword"
+      PGDATA: /var/lib/postgresql/data/pgdata
+#    volumes:
+#      - /opt/data/pgdata:/var/lib/postgresql/data/pgdata
+    ports:
+      - "5432:5432"
+
+volumes:
+  pgdata:
+
