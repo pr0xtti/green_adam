@@ -1,2 +1,5 @@
 # For loading environment variables
 python-dotenv
+# For GraphQL
+# gql
+requests

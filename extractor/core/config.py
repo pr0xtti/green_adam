@@ -36,14 +36,16 @@ CONFIG_FILE: str = 'config.yaml'
 
 
 class Settings:
-
     POSTGRES_USER: str
     POSTGRES_PASSWORD: str
     POSTGRES_SERVER: str
     POSTGRES_PORT: str
     POSTGRES_DB: str
+    POSTGRES_SCHEMA_STAGING: str
+    POSTGRES_SCHEMA_MARTS: str
     DATABASE_URL: str
     SLEEP_TIME: int
+    SPACEX_API_URL: str
 
     def __init__(self):
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
@@ -60,6 +62,9 @@ class Settings:
                 self.POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
                 self.POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", 5432)
                 self.POSTGRES_DB: str = os.getenv("POSTGRES_DB", "")
+                self.POSTGRES_SCHEMA_STAGING: str = os.getenv("POSTGRES_SCHEMA_STAGING")
+                self.POSTGRES_SCHEMA_MARTS: str = os.getenv("POSTGRES_SCHEMA_MARTS")
+                self.SPACEX_API_URL: str = os.getenv("SPACEX_API_URL")
                 logger.debug(f"Set variables from {step}")
             except Exception as e:
                 logger.warning(f"Failed to get variables from {step}")
