@@ -34,9 +34,14 @@ def main():
     logger.debug('Logging started')
     logger.info('Application started')
     while True:
+        logger.info('Going to get SpaceX data ...')
         err = get_data_from_space()
         if not err:
+            # Temporary breaking here
+            break
             make_nap()
+        else:
+            logger.critical('Failed to get data')
 
 
 if __name__ == '__main__':

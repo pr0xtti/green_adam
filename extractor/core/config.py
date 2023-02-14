@@ -6,6 +6,8 @@ from pathlib import Path
 from dotenv import load_dotenv
 # For connection string
 from urllib.parse import quote_plus
+# For settings from config.yaml
+import yaml
 
 
 # Make a connection string
@@ -29,7 +31,8 @@ APP_NAME: str = "extractor"
 LOGGING_CONFIG_FILE: str = "logging.yaml"
 # Default level for logging
 LOGGING_DEFAULT_LEVEL: int = logging.DEBUG
-logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+# Local configuration file name
+CONFIG_FILE: str = 'config.yaml'
 
 
 class Settings:
@@ -40,8 +43,12 @@ class Settings:
     POSTGRES_PORT: str
     POSTGRES_DB: str
     DATABASE_URL: str
+    SLEEP_TIME: int
 
     def __init__(self):
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.debug("__init__")
+
         # Trying to get vars from environment than file
         for step in ["env", "file"]:
             if step == "file":
@@ -53,6 +60,7 @@ class Settings:
                 self.POSTGRES_SERVER: str = os.getenv("POSTGRES_SERVER", "localhost")
                 self.POSTGRES_PORT: str = os.getenv("POSTGRES_PORT", 5432)
                 self.POSTGRES_DB: str = os.getenv("POSTGRES_DB", "")
+                logger.debug(f"Set variables from {step}")
             except Exception as e:
                 logger.warning(f"Failed to get variables from {step}")
 
@@ -64,5 +72,10 @@ class Settings:
             db=self.POSTGRES_DB,
         )
 
+        # Setting other params from local configuration file for the project
+        with open(CONFIG_FILE, 'r') as f:
+            conf = yaml.safe_load(f.read())
+        self.SLEEP_TIME = int(conf['global']['sleep_time'])
 
-settings = Settings
+
+settings = Settings()

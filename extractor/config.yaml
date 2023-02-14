@@ -1,0 +1,4 @@
+global:
+  sleep_time: 10
+# Postgres settings
+postgres:
