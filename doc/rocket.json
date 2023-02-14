@@ -1,0 +1,346 @@
+{
+  "data": {
+    "rockets": [
+      {
+        "active": false,
+        "boosters": 0,
+        "company": "SpaceX",
+        "cost_per_launch": 6700000,
+        "country": "Republic of the Marshall Islands",
+        "diameter": {
+          "meters": 1.68
+        },
+        "engines": {
+          "engine_loss_max": "0",
+          "layout": "single",
+          "number": 1,
+          "propellant_1": "liquid oxygen",
+          "propellant_2": "RP-1 kerosene",
+          "thrust_sea_level": {
+            "kN": 420
+          },
+          "thrust_to_weight": 96,
+          "thrust_vacuum": {
+            "kN": 480
+          },
+          "type": "merlin",
+          "version": "1C"
+        },
+        "first_flight": "2006-03-24",
+        "first_stage": {
+          "burn_time_sec": 169,
+          "engines": 1,
+          "fuel_amount_tons": 44.3,
+          "reusable": false,
+          "thrust_sea_level": {
+            "kN": 420
+          },
+          "thrust_vacuum": {
+            "kN": 480
+          }
+        },
+        "height": {
+          "meters": 22.25
+        },
+        "landing_legs": {
+          "material": null,
+          "number": 0
+        },
+        "mass": {
+          "kg": 30146
+        },
+        "name": "Falcon 1",
+        "payload_weights": [
+          {
+            "kg": 450,
+            "name": "Low Earth Orbit"
+          }
+        ],
+        "second_stage": {
+          "burn_time_sec": 378,
+          "engines": 1,
+          "fuel_amount_tons": 3.38,
+          "payloads": {
+            "composite_fairing": {
+              "diameter": {
+                "meters": 1.5
+              },
+              "height": {
+                "meters": 3.5
+              }
+            },
+            "option_1": "composite fairing"
+          },
+          "thrust": {
+            "kN": 31
+          }
+        },
+        "stages": 2,
+        "success_rate_pct": 40,
+        "type": "rocket"
+      },
+      {
+        "active": true,
+        "boosters": 0,
+        "company": "SpaceX",
+        "cost_per_launch": 50000000,
+        "country": "United States",
+        "diameter": {
+          "meters": 3.7
+        },
+        "engines": {
+          "engine_loss_max": "2",
+          "layout": "octaweb",
+          "number": 9,
+          "propellant_1": "liquid oxygen",
+          "propellant_2": "RP-1 kerosene",
+          "thrust_sea_level": {
+            "kN": 845
+          },
+          "thrust_to_weight": 180.1,
+          "thrust_vacuum": {
+            "kN": 914
+          },
+          "type": "merlin",
+          "version": "1D+"
+        },
+        "first_flight": "2010-06-04",
+        "first_stage": {
+          "burn_time_sec": 162,
+          "engines": 9,
+          "fuel_amount_tons": 385,
+          "reusable": true,
+          "thrust_sea_level": {
+            "kN": 7607
+          },
+          "thrust_vacuum": {
+            "kN": 8227
+          }
+        },
+        "height": {
+          "meters": 70
+        },
+        "landing_legs": {
+          "material": "carbon fiber",
+          "number": 4
+        },
+        "mass": {
+          "kg": 549054
+        },
+        "name": "Falcon 9",
+        "payload_weights": [
+          {
+            "kg": 22800,
+            "name": "Low Earth Orbit"
+          },
+          {
+            "kg": 8300,
+            "name": "Geosynchronous Transfer Orbit"
+          },
+          {
+            "kg": 4020,
+            "name": "Mars Orbit"
+          }
+        ],
+        "second_stage": {
+          "burn_time_sec": 397,
+          "engines": 1,
+          "fuel_amount_tons": 90,
+          "payloads": {
+            "composite_fairing": {
+              "diameter": {
+                "meters": 5.2
+              },
+              "height": {
+                "meters": 13.1
+              }
+            },
+            "option_1": "dragon"
+          },
+          "thrust": {
+            "kN": 934
+          }
+        },
+        "stages": 2,
+        "success_rate_pct": 98,
+        "type": "rocket"
+      },
+      {
+        "active": true,
+        "boosters": 2,
+        "company": "SpaceX",
+        "cost_per_launch": 90000000,
+        "country": "United States",
+        "diameter": {
+          "meters": 12.2
+        },
+        "engines": {
+          "engine_loss_max": "6",
+          "layout": "octaweb",
+          "number": 27,
+          "propellant_1": "liquid oxygen",
+          "propellant_2": "RP-1 kerosene",
+          "thrust_sea_level": {
+            "kN": 845
+          },
+          "thrust_to_weight": 180.1,
+          "thrust_vacuum": {
+            "kN": 914
+          },
+          "type": "merlin",
+          "version": "1D+"
+        },
+        "first_flight": "2018-02-06",
+        "first_stage": {
+          "burn_time_sec": 162,
+          "engines": 27,
+          "fuel_amount_tons": 1155,
+          "reusable": true,
+          "thrust_sea_level": {
+            "kN": 22819
+          },
+          "thrust_vacuum": {
+            "kN": 24681
+          }
+        },
+        "height": {
+          "meters": 70
+        },
+        "landing_legs": {
+          "material": "carbon fiber",
+          "number": 12
+        },
+        "mass": {
+          "kg": 1420788
+        },
+        "name": "Falcon Heavy",
+        "payload_weights": [
+          {
+            "kg": 63800,
+            "name": "Low Earth Orbit"
+          },
+          {
+            "kg": 26700,
+            "name": "Geosynchronous Transfer Orbit"
+          },
+          {
+            "kg": 16800,
+            "name": "Mars Orbit"
+          },
+          {
+            "kg": 3500,
+            "name": "Pluto Orbit"
+          }
+        ],
+        "second_stage": {
+          "burn_time_sec": 397,
+          "engines": 1,
+          "fuel_amount_tons": 90,
+          "payloads": {
+            "composite_fairing": {
+              "diameter": {
+                "meters": 5.2
+              },
+              "height": {
+                "meters": 13.1
+              }
+            },
+            "option_1": "dragon"
+          },
+          "thrust": {
+            "kN": 934
+          }
+        },
+        "stages": 2,
+        "success_rate_pct": 100,
+        "type": "rocket"
+      },
+      {
+        "active": false,
+        "boosters": 0,
+        "company": "SpaceX",
+        "cost_per_launch": 7000000,
+        "country": "United States",
+        "diameter": {
+          "meters": 9
+        },
+        "engines": {
+          "engine_loss_max": null,
+          "layout": null,
+          "number": 37,
+          "propellant_1": "liquid oxygen",
+          "propellant_2": "liquid methane",
+          "thrust_sea_level": {
+            "kN": 1780
+          },
+          "thrust_to_weight": 107,
+          "thrust_vacuum": {
+            "kN": 1960
+          },
+          "type": "raptor",
+          "version": ""
+        },
+        "first_flight": "2021-12-01",
+        "first_stage": {
+          "burn_time_sec": null,
+          "engines": 37,
+          "fuel_amount_tons": 3300,
+          "reusable": true,
+          "thrust_sea_level": {
+            "kN": 128000
+          },
+          "thrust_vacuum": {
+            "kN": 138000
+          }
+        },
+        "height": {
+          "meters": 118
+        },
+        "landing_legs": {
+          "material": "stainless steel",
+          "number": 6
+        },
+        "mass": {
+          "kg": 1335000
+        },
+        "name": "Starship",
+        "payload_weights": [
+          {
+            "kg": 150000,
+            "name": "Low Earth Orbit"
+          },
+          {
+            "kg": 100000,
+            "name": "Mars Orbit"
+          },
+          {
+            "kg": 100000,
+            "name": "Moon Orbit"
+          }
+        ],
+        "second_stage": {
+          "burn_time_sec": null,
+          "engines": 6,
+          "fuel_amount_tons": 1200,
+          "payloads": {
+            "composite_fairing": {
+              "diameter": {
+                "meters": null
+              },
+              "height": {
+                "meters": null
+              }
+            },
+            "option_1": "Spaceship"
+          },
+          "thrust": {
+            "kN": 1957
+          }
+        },
+        "stages": 2,
+        "success_rate_pct": 0,
+        "type": "rocket"
+      }
+    ]
+  }
+}
