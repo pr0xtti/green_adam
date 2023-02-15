@@ -39,12 +39,36 @@ T4:
 - rockets
 - launches
 
+# Solution
+
+
 # Solving
 
-## SpaceX. GraphQL API
+## Main logic
 
-# Structure
+```
+Get data from API, save to DB
+    if not db.exists() or db.empty():
+        data = get_all(api)
+        create_database()
+        create_all_tables()
+        insert_all(data)
+    else:
+        for entity in entities:
+            data = get_from_api(entity)
+            dimensionals = get_dimensionals(entity)
+            facts = get_facts(entity)
+            for table in [dimensionals + facts]:
+                if table.exists():
+                    append_or_update(table, data)                    
+                else:
+                    create(table)
+                    insert(table, data)
+```    
+
+## Structure
 
 ```
 
 ```
+
