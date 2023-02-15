@@ -3,8 +3,9 @@
 # Task
 
 https://drive.google.com/drive/folders/1-Xeh7lR6G_zPe-EQaOH0AKtCLNAPjTl8
- - https://docs.google.com/document/d/1HSSnsVXZ0pigNSo9aFerq5sFD7BvWsxp/edit
- - https://docs.google.com/document/d/10Hc8UN-vwCFa-6gO-8Lra1HUCkA6JteV/edit
+
+- https://docs.google.com/document/d/1HSSnsVXZ0pigNSo9aFerq5sFD7BvWsxp/edit
+- https://docs.google.com/document/d/10Hc8UN-vwCFa-6gO-8Lra1HUCkA6JteV/edit
 
 ## Preface
 
@@ -13,6 +14,7 @@ Docker, и RDBMS. Поэтому мы решили дать тебе типич�
 очень интересную - поработать над интеграцией на данных Space X 🚀
 
 ## Задача:
+
     1. Service/script
         Написать сервис/скрипт, который загружает данные из GraphQL API 
         (https://studio.apollographql.com/public/SpaceX-pxxbxen/home) в базу 
@@ -31,44 +33,39 @@ Docker, и RDBMS. Поэтому мы решили дать тебе типич�
         Залить проект на GitHub и поделиться с нами ссылкой на него (сделать публичным). 
         А также ссылкой на модель данных.
 
-
 # Data
 
 T4:
+
 - missions
 - rockets
 - launches
 
 # Solution
 
-
 # Solving
 
-## Main logic
+## Business logic
 
-```
-Get data from API, save to DB
-    if not db.exists() or db.empty():
-        data = get_all(api)
+```python
+# Get data from API and save to DB
+def get_space_data_save_into_db():
+    if not database.exists():
         create_database()
         create_all_tables()
-        insert_all(data)
-    else:
-        for entity in entities:
-            data = get_from_api(entity)
-            dimensionals = get_dimensionals(entity)
-            facts = get_facts(entity)
-            for table in [dimensionals + facts]:
-                if table.exists():
-                    append_or_update(table, data)                    
-                else:
-                    create(table)
-                    insert(table, data)
-```    
+    for entity in entities:
+        data = get_from_api(entity)
+        tables = get_tables_order(entity)
+        for table in tables:
+            if table.empty():
+                append_or_update(table, data)                    
+            else:
+                create(table)
+                insert(table, data)
+```
 
 ## Structure
 
 ```
 
 ```
-
