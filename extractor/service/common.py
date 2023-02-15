@@ -66,12 +66,5 @@ def get_space_data_save_into_db() -> str | None:
     for entity in entities:
         logger.info(f"Entity: {entity}")
         entity.get_data_and_save()
-        #   tables = entity.get_tables_order()
-        #   for table in tables:
-        #       if tables_exists(table):
-        #           append_or_update(table, data)
-        #       else:
-        #           create_table(table)
-        #           append_data(table, data)
 
 

@@ -12,3 +12,7 @@ class EntityBase:
     @staticmethod
     def db_table_name(name):
         return camel_to_snake(name)
+
+    @staticmethod
+    def sxapi_class_name_from_db_class_name(name):
+        return "Sxapi" + name
