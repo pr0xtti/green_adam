@@ -1,6 +1,6 @@
 # For logging
 import logging
-from sqlalchemy_utils import create_database, database_exists
+from sqlalchemy_utils import create_database, database_exists, drop_database
 from sqlalchemy.schema import CreateSchema
 from sqlalchemy import inspect, event
 from sqlalchemy.orm import Session
@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 # For logging
 from core.config import APP_NAME
 from core.config import settings
-from db.base_class import Base
+from db.base_class import Base, metadata
 from db.session import engine
 
 
@@ -24,7 +24,7 @@ def check_database_exists():
         return False
 
 
-def create_database_tables_if_needed():
+def create_database_tables_if_needed() -> str | None:
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
     schema = settings.POSTGRES_SCHEMA_STAGING
     if not database_exists(url=settings.DATABASE_URL):
@@ -51,15 +51,8 @@ def create_database_tables_if_needed():
     else:
         logger.debug(f"Schema exists: {schema}")
 
-    # Check for schema
-    # event.listen(Base.metadata, 'before_create', CreateSchema(schema))
-    # Base.metadata.reflect(bind=engine, schema=schema)
-    # Base.metadata.create_all(bind=engine, checkfirst=True)
-    # logger.debug(f"Schema created: {schema}")
-
-    # Create tables
-    # Base.metadata.create_all(bind=engine, checkfirst=True)
-    # logger.debug("Tables created")
+    logger.debug("Creating all tables ...")
+    Base.metadata.create_all(bind=engine)
 
 
 def create_tables():
@@ -81,3 +74,22 @@ def table_empty(db: Session, table_model: Base) -> tuple[str | None, bool | None
         err = f"Failed: {e}"
         logger.debug(err)
         return err, None
+
+
+def delete_all_tables():
+    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+    db_name = f"{settings.POSTGRES_DB}.{settings.POSTGRES_SCHEMA_STAGING}"
+    if database_exists(url=settings.DATABASE_URL):
+        logger.debug(f"Database {db_name} exists. Deleting all tables ...")
+        try:
+            # for table in reversed(metadata.sorted_tables):
+            #     logger.debug(f"Deleting: {table} ...")
+            #     engine.execute(table.delete())
+            Base.metadata.drop_all(bind=engine)
+            logger.debug(f"OK, deleted")
+        except Exception as e:
+            err = f"Failed delete tables: {e}"
+            logger.critical(err)
+            return err
+    else:
+        logger.debug(f"Database doesn't exists")

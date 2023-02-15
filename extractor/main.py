@@ -10,6 +10,8 @@ import time
 from core.config import APP_NAME
 from core.config import LOGGING_CONFIG_FILE
 from core.config import LOGGING_DEFAULT_LEVEL
+# Tmp
+from db.database import delete_all_tables
 # Business logic
 from service.common import get_data_from_space, make_nap, get_space_data_save_into_db
 
@@ -33,6 +35,8 @@ def setup_logging():
 def main():
     logger = setup_logging()
     logger.info('Application started')
+    logger.debug('Clearing database ...')
+    delete_all_tables()
     while True:
         logger.info('Going to get SpaceX data ...')
         # err = get_data_from_space()

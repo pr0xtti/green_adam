@@ -67,7 +67,6 @@ class EntityMission(EntityBase):
         for model_name in self.model_order:
             class_type = globals()[model_name]
             # model_instance = class_type()
-            # err, check = table_empty(db, table)
             err, check = table_empty(db=db, table_model=class_type)
             if not err and check:  # Table is empty
                 # Inserting data

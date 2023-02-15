@@ -48,11 +48,12 @@ def get_space_data_save_into_db() -> str | None:
     """
     """
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    logger.debug(f"Going to check if database exists ...")
-    if not check_database_exists():
-        logger.info(f"Database doesn't exist. Creating ...")
-        create_database_tables_if_needed()
-        logger.info(f"Created")
+    logger.debug(f"Will create database and tables if needed")
+    # if not check_database_exists():
+    #     logger.info(f"Database doesn't exist. Creating ...")
+    #     create_database_tables_if_needed()
+    #     logger.info(f"Created")
+    create_database_tables_if_needed()
 
     entities: list[EntityBase] = []
     mission = EntityMission()
