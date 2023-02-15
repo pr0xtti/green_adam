@@ -54,14 +54,17 @@ def get_space_data_save_into_db():
         create_database()
         create_all_tables()
     for entity in entities:
-        data = get_from_api(entity)
-        tables = get_tables_order(entity)
-        for table in tables:
-            if table.empty():
-                append_or_update(table, data)                    
-            else:
-                create(table)
-                insert(table, data)
+    	entity.get_data_and_save()
+        
+def get_data_and_save()
+	tables = get_tables_order(entity)
+    for table in tables:
+        if table_empty(table):
+            append_or_update(table, data)                    
+        else:
+            create(table)
+            insert(table, data)
+    
 ```
 
 ## Structure
