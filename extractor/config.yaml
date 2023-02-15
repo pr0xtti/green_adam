@@ -1,5 +1,30 @@
 global:
   sleep_time: 10
-# Postgres settings
-#postgres:
-#  schema
+db:
+  entities:
+    - mission
+    - rocket
+    - launch
+  # Schema to maintain filling order for the database
+  schema:
+    mission:
+        order:
+          - mission
+    rocket:
+        order:
+          - rocket_type
+          - rocket_engines_type
+          - rocket_engines_propellant_type
+          - rocket:
+              "one-to-one":
+                - rocket_engines
+                - rocket_first_stage
+                - rocket_second_stage
+                - rocket_stages
+          - rocket_payload_weights_type
+          - rocket_payload_weights
+    launch:
+        order:
+          - launch
+          - launch_links
+          - launch_links_flikr_images

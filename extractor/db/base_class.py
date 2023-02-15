@@ -5,6 +5,7 @@ from sqlalchemy.ext.declarative import declared_attr
 from sqlalchemy import MetaData
 
 from core.config import settings
+from core.tool import camel_to_snake
 
 metadata = MetaData(schema=settings.POSTGRES_SCHEMA_STAGING)
 
@@ -17,4 +18,5 @@ class Base:
     # To generate tablename from class name
     @declared_attr
     def __tablename__(cls) -> str:
-        return cls.__name__.lower()
+        # return cls.__name__.lower()
+        return camel_to_snake(cls.__name__)

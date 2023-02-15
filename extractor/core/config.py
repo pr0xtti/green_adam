@@ -8,6 +8,7 @@ from dotenv import load_dotenv
 from urllib.parse import quote_plus
 # For settings from config.yaml
 import yaml
+from pprint import pformat
 
 
 # Application name
@@ -31,7 +32,6 @@ def make_connection_string(
     except Exception as e:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.critical(f"Failed to make a postgres connection string: {e}")
-
 
 
 # Logging configuration file
@@ -87,6 +87,9 @@ class Settings:
         with open(CONFIG_FILE, 'r') as f:
             conf = yaml.safe_load(f.read())
         self.SLEEP_TIME = int(conf['global']['sleep_time'])
+        logger.debug(f"conf['db']: {pformat(conf['db'])}")
+        # print(f"conf['db']: {pformat(conf['db'])}")
+        self.db = conf['db']
 
 
 settings = Settings()

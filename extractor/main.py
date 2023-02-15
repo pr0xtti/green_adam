@@ -11,7 +11,7 @@ from core.config import APP_NAME
 from core.config import LOGGING_CONFIG_FILE
 from core.config import LOGGING_DEFAULT_LEVEL
 # Business logic
-from service.common import get_data_from_space, make_nap
+from service.common import get_data_from_space, make_nap, get_space_data_save_into_db
 
 
 def setup_logging():
@@ -35,7 +35,8 @@ def main():
     logger.info('Application started')
     while True:
         logger.info('Going to get SpaceX data ...')
-        err = get_data_from_space()
+        # err = get_data_from_space()
+        err = get_space_data_save_into_db()
         if not err:
             # Temporary breaking here
             break

@@ -3,12 +3,25 @@ import logging
 from sqlalchemy_utils import create_database, database_exists
 from sqlalchemy.schema import CreateSchema
 from sqlalchemy import inspect, event
+from sqlalchemy.orm import Session
 
 # For logging
 from core.config import APP_NAME
 from core.config import settings
 from db.base_class import Base
 from db.session import engine
+
+
+def check_database_exists():
+    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+    db_name = settings.POSTGRES_SCHEMA_STAGING + "." + settings.POSTGRES_DB
+    logger.debug(f"Checking if database: {db_name} exists ...")
+    if database_exists(url=settings.DATABASE_URL):
+        logger.debug(f"True, database {db_name} exists")
+        return True
+    else:
+        logger.debug(f"False, database {db_name} doesn't exist")
+        return False
 
 
 def create_database_tables_if_needed():
@@ -38,7 +51,6 @@ def create_database_tables_if_needed():
     else:
         logger.debug(f"Schema exists: {schema}")
 
-
     # Check for schema
     # event.listen(Base.metadata, 'before_create', CreateSchema(schema))
     # Base.metadata.reflect(bind=engine, schema=schema)
@@ -52,3 +64,20 @@ def create_database_tables_if_needed():
 
 def create_tables():
     Base.metadata.create_all(bind=engine, checkfirst=True)
+
+
+def table_empty(db: Session, table_model: Base) -> tuple[str | None, bool | None]:
+    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+    logger.debug(f"Going db.query().first() ...")
+    try:
+        result = db.query(table_model).first()
+        if not result:
+            logger.debug(f"True, empty result")
+            return None, True
+        else:
+            logger.debug(f"False, not empty result")
+            return None, False
+    except Exception as e:
+        err = f"Failed: {e}"
+        logger.debug(err)
+        return err, None
