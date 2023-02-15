@@ -10,6 +10,10 @@ from urllib.parse import quote_plus
 import yaml
 
 
+# Application name
+APP_NAME: str = "extractor"
+
+
 # Make a connection string
 def make_connection_string(
         user: str,
@@ -18,15 +22,18 @@ def make_connection_string(
         port: str,
         db: str,
 ) -> str:
-    return (
-        f"postgresql://{quote_plus(user)}:"
-        f"{quote_plus(password)}@"
-        f"{server}:{port}/{db}"
-    )
+    try:
+        return (
+            f"postgresql://{quote_plus(user)}:"
+            f"{quote_plus(password)}@"
+            f"{server}:{port}/{db}"
+        )
+    except Exception as e:
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.critical(f"Failed to make a postgres connection string: {e}")
 
 
-# Application name
-APP_NAME: str = "extractor"
+
 # Logging configuration file
 LOGGING_CONFIG_FILE: str = "logging.yaml"
 # Default level for logging
@@ -49,7 +56,6 @@ class Settings:
 
     def __init__(self):
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        logger.debug("__init__")
 
         # Trying to get vars from environment than file
         for step in ["env", "file"]:

@@ -21,6 +21,7 @@ def setup_logging():
             logging.config.dictConfig(config)
         logger = logging.getLogger(APP_NAME)
         logger.debug('Logging config loaded')
+        logger.debug('Logging started')
     # Failed configuration from file, setting defaults
     except Exception as e:
         logging.basicConfig(level=LOGGING_DEFAULT_LEVEL)
@@ -31,7 +32,6 @@ def setup_logging():
 
 def main():
     logger = setup_logging()
-    logger.debug('Logging started')
     logger.info('Application started')
     while True:
         logger.info('Going to get SpaceX data ...')

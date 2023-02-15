@@ -1,5 +1,10 @@
 # For loading environment variables
 python-dotenv
 # For GraphQL
-# gql
 requests
+# For Postgres
+sqlalchemy
+# For database creation, ...
+sqlalchemy-utils
+# For Postgres psycopg2
+psycopg2-binary
