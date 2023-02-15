@@ -41,6 +41,7 @@ def update_data():
 
 
 class EntityMission(EntityBase):
+    name: str = "mission"
     table_order: list
 
     def __init__(self):
@@ -55,7 +56,10 @@ class EntityMission(EntityBase):
         except Exception as e:
             logger.critical(f"Failed to init: {e}")
 
-    def get_data_and_save(self):
+    def __str__(self):
+        return self.name
+
+    def get_data_and_save(self) -> tuple[str | None, int | None]:
         #   tables = entity.get_tables_order()
         #   for table in tables:
         #       if table_empty(table):
@@ -65,22 +69,27 @@ class EntityMission(EntityBase):
         #           append_data(table, data)
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"model_order: {self.model_order}")
+        tables_affected: int = 0
         for model_name in self.model_order:
             class_type = globals()[model_name]
-            # model_instance = class_type()
             err, check = table_empty(db=db, table_model=class_type)
             if not err and check:  # Table is empty
                 # Inserting data
                 logger.debug(f"Going to fill the table ...")
                 self.fill_table(
                     table_model=class_type,
-                    db_class_name=model_name,)
-                pass
+                    db_class_name=model_name,
+                )
+                tables_affected += 1
             else:  # Table isn't empty
                 # Already has data. Appending or updating data
                 # IT'S NOT IMPLEMENTED
-                logger.critical(f"It's not implemented. Doing nothing")
                 pass
+                logger.critical(f"It's not implemented. Doing nothing")
+
+            logger.debug(f"Tables: affected: {tables_affected}, "
+                         f"total: {len(self.model_order)}")
+            return None, tables_affected
 
     @staticmethod
     def fill_table(table_model: Base, db_class_name: str):
@@ -100,5 +109,3 @@ class EntityMission(EntityBase):
         db.add_all(db_data)
         db.commit()
         logger.debug(f"OK, inserted")
-
-

@@ -65,6 +65,7 @@ def get_space_data_save_into_db() -> str | None:
     logger.info(f"Iterating entities ...")
     for entity in entities:
         logger.info(f"Entity: {entity}")
-        entity.get_data_and_save()
+        err, tables_affected = entity.get_data_and_save()
+        logger.info(f"Entity: {entity}. Appended or changed {tables_affected} tables")
 
 
