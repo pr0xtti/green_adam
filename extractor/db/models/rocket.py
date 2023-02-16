@@ -1,5 +1,5 @@
-from sqlalchemy import Column, Integer, String, Boolean, Float, Date
-from sqlalchemy.orm import relationship
+from sqlalchemy import Column, Integer, String, Boolean, Float, Date, ForeignKey
+from sqlalchemy.orm import relationship, Mapped, mapped_column
 
 from db.base_class import Base
 
@@ -22,7 +22,8 @@ class Rocket(Base):
     name = Column(String, unique=True, nullable=False)
     success_rate_pct = Column(Float)
     wikipedia = Column(String)
-    # id_rocket_type
+    id_rocket_type = Column(Integer, ForeignKey('rocket_type.id'))
+    rocket_type = relationship('RocketType', back_populates='rockets')
     # id_rocket_engines
     # id_rocket_payload_weights
     # id_rocket_stages
@@ -46,6 +47,7 @@ class RocketEngines(Base):
 class RocketType(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
+    rockets = relationship('Rocket', back_populates='rocket_type')
 
 
 class RocketEnginesType(Base):

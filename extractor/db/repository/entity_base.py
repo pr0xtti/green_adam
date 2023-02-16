@@ -32,7 +32,7 @@ class EntityBase:
             table_model: Base,
             sxapi_class_type,
             db_class_name: str
-    ):
+    ) -> str | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         # sxapi_class_name = "Sxapi" + db_class_name
         # sxapi_class_type = globals()[sxapi_class_name]
@@ -51,5 +51,10 @@ class EntityBase:
         logger.debug(f"OK, made: {len(db_data)}")
         logger.debug(f"Going to insert: {len(db_data)} records")
         db.add_all(db_data)
-        db.commit()
+        try:
+            db.commit()
+        except Exception as e:
+            err = f"Failed to insert: {e}"
+            logger.critical(err)
+            return err
         logger.debug(f"OK, inserted")

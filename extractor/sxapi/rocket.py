@@ -69,6 +69,7 @@ class SxapiRocket(SxapiBase):
             }
             name
             success_rate_pct
+            type
             wikipedia
           }
         }
@@ -106,6 +107,8 @@ class SxapiRocket(SxapiBase):
                     'name': item['name'],
                     'success_rate_pct': item['success_rate_pct'],
                     'wikipedia': item['wikipedia'],
+                    'type': item['type'],
+                    # 2. 'id_rocket_type': id_rocket_type,
                 } for item in result_data
         ]
 
