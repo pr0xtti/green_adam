@@ -34,14 +34,18 @@ class EntityRocket(EntityBase):
 
     def get_data_and_save(self) -> tuple[str | None, int | None]:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        logger.debug(f"model_order: {self.model_order}")
-        tables_affected: int = 0
+        tables_affected: int = 0  # Counter
+        logger.debug(f"Iterating through models: {self.model_order} ...")
+        # Iterating through models/tables list
         for model_name in self.model_order:
+            logger.debug(f"Model: {model_name}")
+            # Getting class type for a SQLAlchemy Model by class name
             class_type = globals()[model_name]
             err, check = table_empty(db=db, table_model=class_type)
             if not err and check:  # Table is empty
                 # Inserting data
                 logger.debug(f"Going to fill the table ...")
+                # Getting class type for a SxapiTableClass by class name
                 sxapi_class_type = globals()["Sxapi" + model_name]
                 self.fill_table_base(
                     db=db,
@@ -56,7 +60,7 @@ class EntityRocket(EntityBase):
                 pass
                 logger.critical(f"It's not implemented. Doing nothing")
 
-            logger.debug(f"Tables: affected: {tables_affected}, "
-                         f"total: {len(self.model_order)}")
-            return None, tables_affected
+        logger.debug(f"Tables: affected: {tables_affected}, "
+                     f"total: {len(self.model_order)}")
+        return None, tables_affected
 

@@ -13,6 +13,7 @@ from sxapi.session import connection
 class SxapiBase:
     query: str = ""
     result_template: list[str] = []
+    result_template_nested: list[str] | None = None
 
     @staticmethod
     def make_dict_list_uniq(src_list: list[dict]) -> list[dict] | None:
@@ -26,7 +27,7 @@ class SxapiBase:
         ]
         return new_list
 
-    def get_data_from_query_result(self, query_result: dict | list) \
+    def get_data_from_json_result(self, query_result: dict | list) \
             -> list[dict]:
         """Extracts data from json"""
         def extract_by_template(data: dict, keys: list):
@@ -37,9 +38,23 @@ class SxapiBase:
             return data.get(key)
 
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        result = extract_by_template(query_result, self.result_template)
+        logger.debug(f"Parsing by template: {self.result_template} "
+                     f"data: {query_result}")
+        result_outer = extract_by_template(query_result, self.result_template)
+        if self.result_template_nested:
+            logger.debug(f"Parsing by nested template ...")
+            # Parsing nested template
+            result_inner = [
+                extract_by_template(d, self.result_template_nested)
+                for d in result_outer
+            ]
+            result = result_inner
+        else:
+            result = result_outer
         logger.debug(f"OK, parsed. Returning: {len(result)} count")
+        logger.debug(f"Returning: {pformat(result)}")
         return result
+
 
     def query_exec(self):
         """Executes a self.query with remote API call using requests.post()"""
@@ -48,9 +63,11 @@ class SxapiBase:
         logger.debug(f"Querying remote API: {pformat(self.query)}")
         try:
             result = requests.post(connection.url, json=payload)
-            logger.debug(f"OK, result is not empty")
-            logger.debug(f"Parsing ...")
-            result_data = self.get_data_from_query_result(result.json())
+            if not result:
+                logger.critical(f"Query result is empty")
+            logger.debug(f"Successful query. Parsing ...")
+            result_json = result.json()
+            result_data = self.get_data_from_json_result(result_json)
             return None, result_data
         except Exception as e:
             err = f"Failed to query API: {e}"

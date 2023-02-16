@@ -13,9 +13,9 @@ db:
     rocket:
         order:
           - rocket_type
-#          - rocket_engines_type
+          - rocket_engines_type
 #          - rocket_engines_propellant_type
-          - rocket
+#          - rocket
 #          - rocket:
 #              "one-to-one":
 #                - rocket_engines
