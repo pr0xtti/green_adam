@@ -40,11 +40,15 @@ class EntityBase:
         sxapi_class_instance = sxapi_class_type()
         logger.debug(f"Calling {sxapi_class_type}.get_data()")
         err, sxapi_data = sxapi_class_instance.get_data()
+        if not err:
+            logger.debug(f"OK, we have data: {len(sxapi_data)} count")
         db_data = []
+        logger.debug(f"Making list of instances of Model ...")
         # Making a list of object of sqlalchemy models (type db.model.Class)
         for item in sxapi_data:
             # Unpacking dict to arguments of Class (db.model.Class) initializator
             db_data.append(table_model(**item))
+        logger.debug(f"OK, made: {len(db_data)}")
         logger.debug(f"Going to insert: {len(db_data)} records")
         db.add_all(db_data)
         db.commit()

@@ -9,6 +9,7 @@ class Rocket(Base):
     external_object_id = Column(String, unique=True, nullable=False)
     active = Column(Boolean, unique=False, nullable=False)
     boosters = Column(Integer)
+    company = Column(String)
     cost_per_launch = Column(Integer)
     country = Column(String)
     description = Column(String)
@@ -17,7 +18,7 @@ class Rocket(Base):
     height_meters = Column(Float)
     landing_legs_number = Column(Integer)
     landing_legs_material = Column(String)
-    mass = Column(Float)
+    mass_kg = Column(Float)
     name = Column(String, unique=True, nullable=False)
     success_rate_pct = Column(Float)
     wikipedia = Column(String)
@@ -50,4 +51,9 @@ class RocketType(Base):
 class RocketEnginesType(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
+
+
+# class RocketEnginesPropellantType(Base):
+#     id = Column(Integer, primary_key=True, index=True)
+#     name = Column(String, unique=True, nullable=False)
 

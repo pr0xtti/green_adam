@@ -68,6 +68,7 @@ class SxapiBase:
             logger.debug(f"Successful query. Parsing ...")
             result_json = result.json()
             result_data = self.get_data_from_json_result(result_json)
+            logger.debug(f"Returning: {len(result_data)} count")
             return None, result_data
         except Exception as e:
             err = f"Failed to query API: {e}"
