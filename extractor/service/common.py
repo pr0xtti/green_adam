@@ -68,6 +68,9 @@ def get_space_data_save_into_db() -> str | None:
     for entity in entities:
         logger.info(f"Entity: {entity}")
         err, tables_affected = entity.get_data_and_save()
-        logger.info(f"Entity: {entity}. Appended or changed {tables_affected} tables")
+        if not err:
+            logger.info(f"Entity: {entity}. Appended or changed {tables_affected} tables")
+        else:
+            logger.critical(f"Entity: {entity}. Failed to add tables")
 
 
