@@ -47,7 +47,7 @@ class EntityRocket(EntityBase):
                 logger.debug(f"Going to fill the table ...")
                 # Getting class type for a SxapiTableClass by class name
                 sxapi_class_type = globals()["Sxapi" + model_name]
-                self.fill_table_base(
+                self.fill_table(
                     db=db,
                     table_model=class_type,
                     sxapi_class_type=sxapi_class_type,

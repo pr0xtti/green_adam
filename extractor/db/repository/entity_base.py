@@ -27,7 +27,7 @@ class EntityBase:
         return "Sxapi" + name
 
     @staticmethod
-    def fill_table_base(
+    def fill_table(
             db: Session,
             table_model: Base,
             sxapi_class_type,

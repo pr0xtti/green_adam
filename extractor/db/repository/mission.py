@@ -81,7 +81,7 @@ class EntityMission(EntityBase):
                 #     db_class_name=model_name,
                 # )
                 sxapi_class_type = globals()["Sxapi" + model_name]
-                self.fill_table_base(
+                self.fill_table(
                     db=db,
                     table_model=class_type,
                     sxapi_class_type=sxapi_class_type,
@@ -97,22 +97,3 @@ class EntityMission(EntityBase):
             logger.debug(f"Tables: affected: {tables_affected}, "
                          f"total: {len(self.model_order)}")
             return None, tables_affected
-
-    # @staticmethod
-    # def fill_table(table_model: Base, db_class_name: str):
-    #     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    #     sxapi_class_name = "Sxapi" + db_class_name
-    #     sxapi_class_type = globals()[sxapi_class_name]
-    #     logger.debug(f"Instantiating: {sxapi_class_name}")
-    #     sxapi_class_instance = sxapi_class_type()
-    #     logger.debug(f"Calling {sxapi_class_name}.get_data()")
-    #     err, sxapi_data = sxapi_class_instance.get_data()
-    #     db_data = []
-    #     # Making a list of object of sqlalchemy models (type db.model.Class)
-    #     for item in sxapi_data:
-    #         # Unpacking dict to arguments of Class (db.model.Class) initializator
-    #         db_data.append(table_model(**item))
-    #     logger.debug(f"Going to insert: {len(db_data)} records")
-    #     db.add_all(db_data)
-    #     db.commit()
-    #     logger.debug(f"OK, inserted")
