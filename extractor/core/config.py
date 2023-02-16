@@ -38,6 +38,7 @@ def make_connection_string(
 LOGGING_CONFIG_FILE: str = "logging.yaml"
 # Default level for logging
 LOGGING_DEFAULT_LEVEL: int = logging.DEBUG
+DETAILS: int = 5
 # Local configuration file name
 CONFIG_FILE: str = 'config.yaml'
 

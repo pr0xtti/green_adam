@@ -3,7 +3,7 @@ import logging
 from pprint import pformat
 
 # For logging
-from core.config import APP_NAME
+from core.config import APP_NAME, DETAILS
 from sxapi.base import SxapiBase
 
 
@@ -88,7 +88,7 @@ class SxapiRocket(SxapiBase):
             logger.critical(f"Failed: {err}")
             return err, None
         # logger.debug(f"Result: {pformat(result_data).count('name')}")
-        logger.debug(f"Data: {pformat(result_data)}")
+        logger.log(DETAILS, "Data: {pformat(result_data)}")
         data = [
                 {
                     'active': item['active'],
@@ -112,7 +112,7 @@ class SxapiRocket(SxapiBase):
                 } for item in result_data
         ]
 
-        logger.debug(f"Prepared data: {pformat(data)}")
+        logger.log(DETAILS, f"Prepared data: {pformat(data)}")
         logger.debug(f"Returning: {len(data)} count")
         return None, data
 

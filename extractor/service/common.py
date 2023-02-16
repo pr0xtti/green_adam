@@ -8,7 +8,7 @@ from core.config import APP_NAME
 from core.config import settings
 #
 from sxapi.launch import get_launches
-from sxapi.mission import get_missions
+# from sxapi.mission import get_missions
 from db.database import create_database_tables_if_needed, check_database_exists
 from db.repository.mission import fill_missions
 from db.repository.entity_base import EntityBase
@@ -58,8 +58,8 @@ def get_space_data_save_into_db() -> str | None:
     create_database_tables_if_needed()
 
     entities: list[EntityBase] = []
-    # mission = EntityMission()
-    # entities.append(mission)
+    mission = EntityMission()
+    entities.append(mission)
     rocket = EntityRocket()
     entities.append(rocket)
     # launch = EntityLaunch()

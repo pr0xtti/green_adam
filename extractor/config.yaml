@@ -27,5 +27,5 @@ db:
     launch:
         order:
           - launch
-          - launch_links
-          - launch_links_flikr_images
+#          - launch_links
+#          - launch_links_flikr_images

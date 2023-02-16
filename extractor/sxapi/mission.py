@@ -1,77 +1,43 @@
 # For logging
 import logging
 # For GraphQL
-# from gql import gql, Client
 import requests
 # For development
-from pprint import pprint
 from pprint import pformat
 
 # For logging
-from core.config import APP_NAME
+from core.config import APP_NAME, DETAILS
 # For connection to API
 from sxapi.session import connection
+from sxapi.base import SxapiBase
 
 
-def get_missions():
-    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    query = """
+class SxapiMission(SxapiBase):
+    query: str = """
         query Launches {
           launches {
-            mission_name
-            mission_id
+            name: mission_name
+            external_object_id: mission_id
           }
         }
     """
-    payload = {"query": query}
-    logger.debug(f"Querying remote API: {pformat(query)}")
-    try:
-        result = requests.post(connection.url, json=payload)
-        if result:
-            result_data = result.json()
-            # logger.debug(f"Result: {pformat(result_data).count('mission_name')}")
-            # logger.debug(f"Result: {pformat(result_data)}")
-            logger.debug(f"OK, result is not empty")
-        else:
-            err = "Received empty data"
-            logger.critical(err)
-            return err, None
+    result_template: list = ['data', 'launches']
 
-        missions = result_data['data']['launches']
-        return None, missions
-
-    except Exception as e:
-        logger.critical(f"Failed to query API: {e}")
-
-
-class SxapiMission:
-    def get_data(self):
+    def get_data(self) -> tuple[str | None, list | None]:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        query = """
-            query Launches {
-              launches {
-                name: mission_name
-                external_object_id: mission_id
-              }
-            }
-        """
-        payload = {"query": query}
-        logger.debug(f"Querying remote API: {pformat(query)}")
-        try:
-            result = requests.post(connection.url, json=payload)
-            if result:
-                result_data = result.json()
-                # logger.debug(f"Result: {pformat(result_data).count('mission_name')}")
-                # logger.debug(f"Result: {pformat(result_data)}")
-                logger.debug(f"OK, result is not empty")
-            else:
-                err = "Received empty data"
-                logger.critical(err)
-                return err, None
+        logger.debug(f"Going to get data ...")
+        err, result_data = self.query_exec()
+        if err:
+            logger.critical(f"Failed: {err}")
+            return err, None
+        logger.log(DETAILS, "Data: {pformat(result_data)}")
+        data = [
+            {
+                'name': item['name'],
+                'external_object_id': item['external_object_id'][0],
+            } for item in result_data
+        ]
 
-            missions = result_data['data']['launches']
-            logger.debug(f"Returning: {len(missions)} count")
-            return None, missions
-
-        except Exception as e:
-            logger.critical(f"Failed to query API: {e}")
+        logger.log(DETAILS, f"Prepared data: {pformat(data)}")
+        logger.debug(f"Returning data: {len(data)} count")
+        return None, data

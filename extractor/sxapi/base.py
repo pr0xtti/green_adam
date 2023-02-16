@@ -5,7 +5,7 @@ import requests
 from pprint import pformat
 
 # For logging
-from core.config import APP_NAME
+from core.config import APP_NAME, DETAILS
 # For connection to API
 from sxapi.session import connection
 
@@ -38,7 +38,7 @@ class SxapiBase:
             return data.get(key)
 
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        logger.debug(f"Parsing by template: {self.result_template} "
+        logger.log(DETAILS, f"Parsing by template: {self.result_template} "
                      f"data: {query_result}")
         result_outer = extract_by_template(query_result, self.result_template)
         if self.result_template_nested:
@@ -52,15 +52,16 @@ class SxapiBase:
         else:
             result = result_outer
         logger.debug(f"OK, parsed. Returning: {len(result)} count")
-        logger.debug(f"Returning: {pformat(result)}")
+        # logger.debug(f"Returning: {pformat(result)}")
+        logger.log(DETAILS, f"Returning: {pformat(result)}")
         return result
-
 
     def query_exec(self):
         """Executes a self.query with remote API call using requests.post()"""
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         payload = {"query": self.query}
-        logger.debug(f"Querying remote API: {pformat(self.query)}")
+        logger.log(DETAILS, f"Query: {pformat(self.query)}")
+        logger.debug(f"Executing query {len(self.query)} chars ...")
         try:
             result = requests.post(connection.url, json=payload)
             if not result:
