@@ -10,3 +10,4 @@ class Mission(Base):
     id = Column(Integer, primary_key=True, index=True)
     name = Column(String, unique=True, nullable=False)
     external_object_id = Column(String, unique=True, nullable=False)
+    launches = relationship('Launch', back_populates='mission')

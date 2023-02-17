@@ -14,7 +14,7 @@ class Launch(Base):
     launch_year = Column(String)
     static_fire_date_utc = Column(Date)
     telemetry_flight_club = Column(String)
-    tentative_max_precesion = Column(String)
+    tentative_max_precision = Column(String)
     upcoming = Column(Boolean, unique=False, nullable=False)
     id_mission = Column(Integer, ForeignKey('mission.id'))
     mission = relationship('Mission', back_populates='launches')

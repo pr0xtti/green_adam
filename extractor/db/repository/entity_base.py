@@ -2,15 +2,35 @@
 import logging
 
 from core.config import APP_NAME
+from core.config import settings
 from core.tool import camel_to_snake, snake_to_camel
 
-# from typing import TYPE_CHECKING
-# if TYPE_CHECKING:
 from sqlalchemy.orm import Session
 from db.base_class import Base
 
 
 class EntityBase:
+    name: str = ""
+    table_order: list = []
+    model_order: list = []
+
+    def __init__(self):
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        if not self.name:
+            return
+        try:
+            # logger.debug(f"settings.db['schema']: {pformat(settings.db['schema'])}")
+            logger.debug(f"Setting self.table_order")
+            self.table_order = settings.db['schema'][self.name]['order']
+            logger.debug(f"Set: {self.table_order}")
+            self.model_order = [self.db_class_name(i) for i in self.table_order]
+            logger.debug(f"Set: {self.model_order}")
+        except Exception as e:
+            logger.critical(f"Failed to init: {e}")
+
+    def __str__(self):
+        return self.name
+
     def get_data_and_save(self):
         raise Exception("Calling Base method")
 
@@ -25,6 +45,19 @@ class EntityBase:
     @staticmethod
     def sxapi_class_name_from_db_class_name(name):
         return "Sxapi" + name
+
+    # def get_id_by_ext_id(
+    #         self,
+    #         ext_id: str,
+    #         id_attr_name: str,
+    #         data_item: dict,
+    #         attr_dict: dict,
+    #         entity_class_name,
+    # ):
+    #     if ext_id not in attr_dict.keys():
+    #         mission = entity_class_name()
+    #         attr_dict[ext_id] = mission.get_id_by_ext_id(ext_id)
+    #     data_item[id_attr_name] = attr_dict[ext_id]
 
     @staticmethod
     def fill_table(

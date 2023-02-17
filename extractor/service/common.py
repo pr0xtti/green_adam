@@ -7,13 +7,14 @@ import time
 from core.config import APP_NAME
 from core.config import settings
 #
-from sxapi.launch import get_launches
+# from sxapi.launch import get_launches
 # from sxapi.mission import get_missions
 from db.database import create_database_tables_if_needed, check_database_exists
 from db.repository.mission import fill_missions
 from db.repository.entity_base import EntityBase
 from db.repository.mission import EntityMission
 from db.repository.rocket import EntityRocket
+from db.repository.launch import EntityLaunch
 
 
 def get_data_from_space():
@@ -62,8 +63,8 @@ def get_space_data_save_into_db() -> str | None:
     entities.append(mission)
     rocket = EntityRocket()
     entities.append(rocket)
-    # launch = EntityLaunch()
-    # entities.append(launch)
+    launch = EntityLaunch()
+    entities.append(launch)
     logger.info(f"Iterating entities ...")
     for entity in entities:
         logger.info(f"Entity: {entity}")

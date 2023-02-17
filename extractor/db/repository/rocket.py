@@ -21,19 +21,17 @@ class EntityRocket(EntityBase):
     table_order: list
 
     def __init__(self):
-        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        try:
-            # logger.debug(f"settings.db['schema']: {pformat(settings.db['schema'])}")
-            logger.debug(f"Setting self.table_order")
-            self.table_order = settings.db['schema']['rocket']['order']
-            logger.debug(f"Set: {self.table_order}")
-            self.model_order = [self.db_class_name(i) for i in self.table_order]
-            logger.debug(f"Set: {self.model_order}")
-        except Exception as e:
-            logger.critical(f"Failed to init: {e}")
-
-    def __str__(self):
-        return self.name
+        super(EntityRocket, self).__init__()
+        # logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        # try:
+        #     # logger.debug(f"settings.db['schema']: {pformat(settings.db['schema'])}")
+        #     logger.debug(f"Setting self.table_order")
+        #     self.table_order = settings.db['schema']['rocket']['order']
+        #     logger.debug(f"Set: {self.table_order}")
+        #     self.model_order = [self.db_class_name(i) for i in self.table_order]
+        #     logger.debug(f"Set: {self.model_order}")
+        # except Exception as e:
+        #     logger.critical(f"Failed to init: {e}")
 
     def get_data_and_save(self) -> tuple[str | None, int | None]:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
@@ -106,6 +104,23 @@ class EntityRocket(EntityBase):
         logger.debug(f"Tables: affected: {tables_affected}, "
                      f"total: {len(self.model_order)}")
         return None, tables_affected
+
+    @staticmethod
+    def get_id_by_ext_id(ext_id: str):
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.debug(f"Executing db query ...")
+        try:
+            mission = db.query(Rocket).filter_by(
+                external_object_id=ext_id
+            ).first()
+            if mission:
+                logger.debug(f"OK, got result")
+                return mission.id
+            else:
+                logger.warning(f"Not found")
+        except Exception as e:
+            logger.critical(f"Failed: {e}")
+
 
 
     # def get_data_and_save(self) -> tuple[str | None, int | None]:

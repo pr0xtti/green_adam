@@ -9,6 +9,7 @@ from sqlalchemy.orm import Session
 from core.config import APP_NAME
 from core.config import settings
 from db.base_class import Base, metadata
+from typing import Any
 from db.session import engine
 
 
@@ -59,7 +60,7 @@ def create_tables():
     Base.metadata.create_all(bind=engine, checkfirst=True)
 
 
-def table_empty(db: Session, table_model: Base) -> tuple[str | None, bool | None]:
+def table_empty(db: Session, table_model: Base | Any) -> tuple[str | None, bool | None]:
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
     logger.debug(f"Going db.query().first() ...")
     try:

@@ -97,3 +97,19 @@ class EntityMission(EntityBase):
             logger.debug(f"Tables: affected: {tables_affected}, "
                          f"total: {len(self.model_order)}")
             return None, tables_affected
+
+    @staticmethod
+    def get_id_by_ext_id(ext_id: str):
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.debug(f"Executing db query ...")
+        try:
+            mission = db.query(Mission).filter_by(
+                external_object_id=ext_id
+            ).first()
+            if mission:
+                logger.debug(f"OK, got result")
+                return mission.id
+            else:
+                logger.warning(f"Not found")
+        except Exception as e:
+            logger.critical(f"Failed: {e}")

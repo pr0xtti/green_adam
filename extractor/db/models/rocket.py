@@ -27,6 +27,7 @@ class Rocket(Base):
     # id_rocket_engines
     # id_rocket_payload_weights
     # id_rocket_stages
+    launches = relationship('Launch', back_populates='rocket')
 
 
 class RocketEngines(Base):
