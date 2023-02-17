@@ -1,20 +1,27 @@
 from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, scoped_session
+from sqlalchemy.orm import sessionmaker, scoped_session, Session
 
 from core.config import settings
 
 
 # engine = create_engine(url=settings.DATABASE_URL)
-engine = create_engine(url=settings.DATABASE_URL, pool_size=5, pool_recycle=3600)
+engine = create_engine(
+    url=settings.DATABASE_URL,
+    pool_size=5,
+    pool_recycle=3600,
+    echo=True,
+    logging_name="sqlengine",
+)
 # session_factory = sessionmaker(bind=engine)
 # Session = scoped_session(session_factory)
 
-SessionLocal = sessionmaker(
-    autocommit=False,
-    autoflush=False,
-    bind=engine,
-)
-session = SessionLocal()
+# SessionLocal = sessionmaker(
+#     autocommit=False,
+#     autoflush=False,
+#     bind=engine,
+# )
+# session = SessionLocal()
+session = Session(bind=engine)
 
 
 # SessionLocal = sessionmaker(

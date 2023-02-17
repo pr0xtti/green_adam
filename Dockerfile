@@ -13,6 +13,8 @@ RUN pwd && ls -lah \
     && pip install --no-cache-dir --upgrade -r ./ext-requirements.txt \
     #&& echo "Deactivating ..." \
     #&& deactivate \
+    && echo "Some tools ..." \
+    && apt update && apt install -y iputils-ping \
     && ls -lah
 
 COPY ./extractor /app/extractor

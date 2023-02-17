@@ -11,6 +11,8 @@ services:
       - ./:/app
     env_file:
       - "vars.env"
+    environment:
+      POSTGRES_PORT: 5432
   pg:
     image: "postgres"
     container_name: "greenadam-postgres"

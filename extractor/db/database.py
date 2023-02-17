@@ -2,7 +2,7 @@
 import logging
 from sqlalchemy_utils import create_database, database_exists, drop_database
 from sqlalchemy.schema import CreateSchema
-from sqlalchemy import inspect, event
+from sqlalchemy import inspect, event, DDL
 from sqlalchemy.orm import Session
 
 # For logging
@@ -28,31 +28,46 @@ def check_database_exists():
 def create_database_tables_if_needed() -> str | None:
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
     schema = settings.POSTGRES_SCHEMA_STAGING
-    if not database_exists(url=settings.DATABASE_URL):
-        logger.debug(f"Database {schema}"
-                     f".{settings.POSTGRES_DB}"
-                     f" doesn't exist. Going to create ...")
-        try:
-            create_database(url=settings.DATABASE_URL)
-            logger.debug("Database created")
-        except Exception as e:
-            err = f"Failed to create database: {e}"
-            logger.critical(err)
-            return err
-    else:
-        logger.debug(f"Database exists")
+    # logger.debug(f"Checking if database exists ...")
+    # if not database_exists(url=settings.DATABASE_URL):
+    #     logger.debug(f"Database {schema}"
+    #                  f".{settings.POSTGRES_DB}"
+    #                  f" doesn't exist. Going to create ...")
+    #     try:
+    #         create_database(url=settings.DATABASE_URL)
+    #         logger.debug("Database created")
+    #     except Exception as e:
+    #         err = f"Failed to create database: {e}"
+    #         logger.critical(err)
+    #         return err
+    # else:
+    #     logger.debug(f"Database exists")
 
     schemas = inspect(engine).get_schema_names()
     logger.debug(f"Schemas: {schemas}")
 
-    conn = engine.connect()
-    if not conn.dialect.has_schema(conn, schema):
-        conn.execute(CreateSchema(schema, if_not_exists=True))
-        logger.debug(f"Schema created: {schema}")
-    else:
-        logger.debug(f"Schema exists: {schema}")
+    # conn = engine.connect()
+    # if not conn.dialect.has_schema(conn, schema):
+    #     logger.debug(f"Creating schema: {schema} ...")
+    #     # conn.execute(CreateSchema(schema, if_not_exists=True))
+    #     # local_create_schema = CreateSchema(schema, if_not_exists=True)
+    #     # local_create_schema.execute_if()
+    #     # result = conn.execute(statement='create schema staging')
+    #     conn.exec_driver_sql('create schema staging')
+    #
+    #     logger.debug(f"Schema created: {schema}")
+    #     schemas = inspect(engine).get_schema_names()
+    #     logger.debug(f"Schemas: {schemas}")
+    # else:
+    #     logger.debug(f"Schema exists: {schema}")
 
     logger.debug("Creating all tables ...")
+    # Base.metadata.create_all(bind=engine)
+    event.listen(
+        Base.metadata,
+        'before_create',
+        DDL(f"CREATE SCHEMA IF NOT EXISTS {schema}"),
+    )
     Base.metadata.create_all(bind=engine)
 
 
