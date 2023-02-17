@@ -8,3 +8,5 @@ sqlalchemy
 sqlalchemy-utils
 # For Postgres psycopg2
 psycopg2-binary
+#
+pyyaml
