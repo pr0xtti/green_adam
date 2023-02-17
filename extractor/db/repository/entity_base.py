@@ -46,19 +46,6 @@ class EntityBase:
     def sxapi_class_name_from_db_class_name(name):
         return "Sxapi" + name
 
-    # def get_id_by_ext_id(
-    #         self,
-    #         ext_id: str,
-    #         id_attr_name: str,
-    #         data_item: dict,
-    #         attr_dict: dict,
-    #         entity_class_name,
-    # ):
-    #     if ext_id not in attr_dict.keys():
-    #         mission = entity_class_name()
-    #         attr_dict[ext_id] = mission.get_id_by_ext_id(ext_id)
-    #     data_item[id_attr_name] = attr_dict[ext_id]
-
     @staticmethod
     def fill_table(
             db: Session,
