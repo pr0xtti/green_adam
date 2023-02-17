@@ -4,7 +4,7 @@ from pprint import pformat
 
 # For logging
 from core.config import APP_NAME, DETAILS
-from db.models.launch import Launch
+from db.models.launch import Launch, LaunchLinks
 from db.session import session as db
 from db.repository.entity_base import EntityBase
 from db.repository.mission import EntityMission  # In use!
@@ -53,9 +53,15 @@ class EntityLaunch(EntityBase):
                     f"Prepared launch: "
                     f"external_object_id: {item['external_object_id']}, "
                 )
+                # launch_links table
+                launch_links_dict = item.pop('launch_links')
                 try:
                     launch = Launch(**item)
+                    # launch_links table
+                    # launch_links = LaunchLinks(**launch_links_dict, id_launch=launch.id)
+                    launch_links = LaunchLinks(**launch_links_dict, launch=launch)
                     db_data.append(launch)
+                    db_data.append(launch_links)
                 except Exception as e:
                     logger.critical(f"Failed to create instance of Lunch model: {e}")
 

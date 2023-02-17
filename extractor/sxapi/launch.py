@@ -28,6 +28,18 @@ class SxapiLaunch(SxapiBase):
             }
             tentative_max_precision
             upcoming
+            links {
+              article_link
+              mission_patch
+              mission_patch_small
+              presskit
+              reddit_campaign
+              reddit_launch
+              reddit_media
+              reddit_recovery
+              video_link
+              wikipedia
+            }
           }
         }
     """
@@ -52,14 +64,17 @@ class SxapiLaunch(SxapiBase):
                     'is_tentative': item.get('is_tentative'),
                     'launch_date_utc': item.get('launch_date_utc'),
                     'launch_success': item.get('launch_success'),
+                    # mission.id
                     'id_mission': item['id_mission'][0],
+                    # rocket.id
                     'id_rocket': item['rocket']['rocket']['id_rocket'],
                     'static_fire_date_utc': item.get('static_fire_date_utc'),
                     'telemetry_flight_club': None if not item.get('telemetry')
                     else item.get('telemetry', {}).get('flight_club'),
                     'tentative_max_precision': item.get('tentative_max_precision'),
                     'upcoming': item['upcoming'],
-
+                    # launch_links table
+                    'launch_links': item['links'],
                 } for item in result_data
         ]
 
