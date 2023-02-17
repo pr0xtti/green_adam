@@ -1,12 +1,12 @@
 # For loading environment variables
-python-dotenv
+python-dotenv==0.21.1
 # For GraphQL
-requests
+requests==2.28.2
 # For Postgres
-sqlalchemy
+sqlalchemy==2.0.3
 # For database creation, ...
-sqlalchemy-utils
+sqlalchemy-utils==0.40.0
 # For Postgres psycopg2
-psycopg2-binary
+psycopg2-binary==2.9.5
 #
-pyyaml
+pyyaml==6.0
