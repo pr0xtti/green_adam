@@ -21,7 +21,9 @@ services:
 #    volumes:
 #      - /opt/data/pgdata:/var/lib/postgresql/data/pgdata
     ports:
-      - "5432:5432"
+      # Please, set external_port that suits you
+      # "external_port:internal_port"
+      - "55400:5432"
 
 volumes:
   pgdata:
