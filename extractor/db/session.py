@@ -4,14 +4,16 @@ from sqlalchemy.orm import sessionmaker, scoped_session, Session
 from core.config import settings
 
 
-# engine = create_engine(url=settings.DATABASE_URL)
 engine = create_engine(
     url=settings.DATABASE_URL,
     pool_size=5,
     pool_recycle=3600,
-    echo=True,
+    # echo=True,
     logging_name="sqlengine",
 )
+session = Session(bind=engine)
+
+
 # session_factory = sessionmaker(bind=engine)
 # Session = scoped_session(session_factory)
 
@@ -21,22 +23,12 @@ engine = create_engine(
 #     bind=engine,
 # )
 # session = SessionLocal()
-session = Session(bind=engine)
-
-
-# SessionLocal = sessionmaker(
-#     autocommit=False,
-#     autoflush=False,
-#     bind=engine,
-# )
-
 
 # # An instance of SessionLocal class will be the actual DB session
 # # We will create a session for each request
 # def get_session():
 #     try:
 #         session = SessionLocal()
-#         # Base.metadata.create_all(engine)
 #         yield session
 #     except Exception:
 #         session.rollback()

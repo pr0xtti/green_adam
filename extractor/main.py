@@ -3,8 +3,6 @@ import logging
 # For loading logging config
 import logging.config
 import yaml
-# For sleep
-import time
 
 # For logging
 from core.config import APP_NAME
@@ -13,7 +11,7 @@ from core.config import LOGGING_DEFAULT_LEVEL
 # Tmp
 from db.database import delete_all_tables, check_database_availability
 # Business logic
-from service.common import get_data_from_space, make_nap, get_space_data_save_into_db
+from service.common import make_nap, get_space_data_save_into_db
 
 
 def setup_logging():

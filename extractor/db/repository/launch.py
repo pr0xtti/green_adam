@@ -4,8 +4,6 @@ from pprint import pformat
 
 # For logging
 from core.config import APP_NAME, DETAILS
-from core.config import settings
-# from core.tool import camel_to_snake, snake_to_camel
 from db.models.launch import Launch
 from db.session import session as db
 from db.repository.entity_base import EntityBase
@@ -54,8 +52,6 @@ class EntityLaunch(EntityBase):
                 logger.debug(
                     f"Prepared launch: "
                     f"external_object_id: {item['external_object_id']}, "
-                    # f"id_mission: {item['id_mission']}, "
-                    # f"id_rocket: {item['id_rocket']}"
                 )
                 try:
                     launch = Launch(**item)

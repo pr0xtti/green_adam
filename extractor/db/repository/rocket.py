@@ -1,6 +1,5 @@
 # For logging
 import logging
-# from sqlalchemy.orm import Session
 from pprint import pformat
 
 # For logging
@@ -22,16 +21,6 @@ class EntityRocket(EntityBase):
 
     def __init__(self):
         super(EntityRocket, self).__init__()
-        # logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        # try:
-        #     # logger.debug(f"settings.db['schema']: {pformat(settings.db['schema'])}")
-        #     logger.debug(f"Setting self.table_order")
-        #     self.table_order = settings.db['schema']['rocket']['order']
-        #     logger.debug(f"Set: {self.table_order}")
-        #     self.model_order = [self.db_class_name(i) for i in self.table_order]
-        #     logger.debug(f"Set: {self.model_order}")
-        # except Exception as e:
-        #     logger.critical(f"Failed to init: {e}")
 
     def get_data_and_save(self) -> tuple[str | None, int | None]:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
@@ -49,12 +38,6 @@ class EntityRocket(EntityBase):
             logger.debug(f"Going to fill the table ...")
             # Getting class type for a SxapiTableClass by class name
             sxapi_class_type = globals()["Sxapi" + model_name]
-            # err = self.fill_table(
-            #     db=db,
-            #     table_model=class_type,
-            #     sxapi_class_type=sxapi_class_type,
-            #     db_class_name=model_name,
-            # )
 
             logger.debug(f"Instantiating: {sxapi_class_type}")
             sxapi_class_instance = sxapi_class_type()
@@ -74,7 +57,6 @@ class EntityRocket(EntityBase):
                     db_data.append(rocket_type_dict[name])
                 rocket_type = rocket_type_dict[name]
                 item['rocket_type'] = rocket_type
-
 
                 # logger.debug(f"item: {pformat(item)}")
                 rocket = Rocket(**item)
@@ -120,40 +102,3 @@ class EntityRocket(EntityBase):
                 logger.warning(f"Not found")
         except Exception as e:
             logger.critical(f"Failed: {e}")
-
-
-
-    # def get_data_and_save(self) -> tuple[str | None, int | None]:
-    #     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    #     tables_affected: int = 0  # Counter
-    #     logger.debug(f"Iterating through models: {self.model_order} ...")
-    #     # Iterating through models/tables list
-    #     for model_name in self.model_order:
-    #         logger.debug(f"Model: {model_name}")
-    #         # Getting class type for a SQLAlchemy Model by class name
-    #         class_type = globals()[model_name]
-    #         err, check = table_empty(db=db, table_model=class_type)
-    #         if not err and check:  # Table is empty
-    #             # Inserting data
-    #             logger.debug(f"Going to fill the table ...")
-    #             # Getting class type for a SxapiTableClass by class name
-    #             sxapi_class_type = globals()["Sxapi" + model_name]
-    #             err = self.fill_table(
-    #                 db=db,
-    #                 table_model=class_type,
-    #                 sxapi_class_type=sxapi_class_type,
-    #                 db_class_name=model_name,
-    #             )
-    #             if err:
-    #                 logger.critical(f"Failed to fill table for model: {model_name}")
-    #             else:
-    #                 tables_affected += 1
-    #         else:  # Table isn't empty
-    #             # Already has data. Appending or updating data
-    #             # IT'S NOT IMPLEMENTED
-    #             pass
-    #             logger.critical(f"It's not implemented. Doing nothing")
-    #
-    #     logger.debug(f"Tables: affected: {tables_affected}, "
-    #                  f"total: {len(self.model_order)}")
-    #     return None, tables_affected

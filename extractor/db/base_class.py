@@ -15,8 +15,7 @@ class Base:
     id: Any
     __name__: str
 
-    # To generate tablename from class name
     @declared_attr
     def __tablename__(cls) -> str:
-        # return cls.__name__.lower()
+        """To generate tablename from class name"""
         return camel_to_snake(cls.__name__)

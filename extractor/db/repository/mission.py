@@ -3,14 +3,12 @@ import logging
 from sqlalchemy.orm import Session
 from pprint import pformat
 
-# For logging
 from core.config import APP_NAME
 from core.config import settings
 from db.models.mission import *
 from db.session import session as db
 from db.repository.entity_base import EntityBase
 from db.database import table_empty
-# from sxapi.mission import get_missions
 from sxapi.mission import *
 
 
@@ -60,13 +58,6 @@ class EntityMission(EntityBase):
         return self.name
 
     def get_data_and_save(self) -> tuple[str | None, int | None]:
-        #   tables = entity.get_tables_order()
-        #   for table in tables:
-        #       if table_empty(table):
-        #           append_or_update(table, data)
-        #       else:
-        #           create_table(table)
-        #           append_data(table, data)
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"model_order: {self.model_order}")
         tables_affected: int = 0
@@ -76,10 +67,6 @@ class EntityMission(EntityBase):
             if not err and check:  # Table is empty
                 # Inserting data
                 logger.debug(f"Going to fill the table ...")
-                # self.fill_table(
-                #     table_model=class_type,
-                #     db_class_name=model_name,
-                # )
                 sxapi_class_type = globals()["Sxapi" + model_name]
                 self.fill_table(
                     db=db,

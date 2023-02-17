@@ -19,7 +19,6 @@ class EntityBase:
         if not self.name:
             return
         try:
-            # logger.debug(f"settings.db['schema']: {pformat(settings.db['schema'])}")
             logger.debug(f"Setting self.table_order")
             self.table_order = settings.db['schema'][self.name]['order']
             logger.debug(f"Set: {self.table_order}")
@@ -54,8 +53,6 @@ class EntityBase:
             db_class_name: str
     ) -> str | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-        # sxapi_class_name = "Sxapi" + db_class_name
-        # sxapi_class_type = globals()[sxapi_class_name]
         logger.debug(f"Instantiating: {sxapi_class_type}")
         sxapi_class_instance = sxapi_class_type()
         logger.debug(f"Calling {sxapi_class_type}.get_data()")

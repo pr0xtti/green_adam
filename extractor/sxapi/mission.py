@@ -1,14 +1,10 @@
 # For logging
 import logging
-# For GraphQL
-import requests
-# For development
 from pprint import pformat
 
 # For logging
 from core.config import APP_NAME, DETAILS
 # For connection to API
-from sxapi.session import connection
 from sxapi.base import SxapiBase
 
 
