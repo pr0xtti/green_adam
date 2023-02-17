@@ -2,7 +2,7 @@
 import logging
 from sqlalchemy_utils import create_database, database_exists, drop_database
 from sqlalchemy.schema import CreateSchema
-from sqlalchemy import inspect, event, DDL
+from sqlalchemy import inspect, event, DDL, text
 from sqlalchemy.orm import Session
 
 # For logging
@@ -10,18 +10,30 @@ from core.config import APP_NAME
 from core.config import settings
 from db.base_class import Base, metadata
 from typing import Any
-from db.session import engine
+from db.session import engine, session as db
 
 
 def check_database_exists():
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    db_name = settings.POSTGRES_SCHEMA_STAGING + "." + settings.POSTGRES_DB
+    # db_name = settings.POSTGRES_SCHEMA_STAGING + "." + settings.POSTGRES_DB
+    db_name = settings.POSTGRES_DB
     logger.debug(f"Checking if database: {db_name} exists ...")
     if database_exists(url=settings.DATABASE_URL):
         logger.debug(f"True, database {db_name} exists")
         return True
     else:
         logger.debug(f"False, database {db_name} doesn't exist")
+        return False
+
+
+def check_database_availability():
+    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+    try:
+        db.execute(text('SELECT 1'))
+        logger.debug(f"Available")
+        return True
+    except Exception as e:
+        logger.critical(f"Database unreachable: {e}")
         return False
 
 

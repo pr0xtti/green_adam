@@ -41,16 +41,18 @@ def get_data_from_space():
     err = fill_missions(missions)
 
 
-def make_nap():
+def make_nap(sleep_time: int = settings.SLEEP_TIME):
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    logger.debug(f"Sleeping for {settings.SLEEP_TIME} sec")
-    time.sleep(settings.SLEEP_TIME)
+    logger.debug(f"Sleeping for {sleep_time} sec")
+    time.sleep(sleep_time)
 
 
 def get_space_data_save_into_db() -> str | None:
     """
     """
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+
+
     logger.debug(f"Will create database and tables if needed")
     # if not check_database_exists():
     #     logger.info(f"Database doesn't exist. Creating ...")
