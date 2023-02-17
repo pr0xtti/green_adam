@@ -28,6 +28,9 @@ class SxapiLaunch(SxapiBase):
               }
             }
             static_fire_date_utc
+            telemetry {
+              flight_club
+            }
             tentative_max_precision
             upcoming
           }
@@ -50,14 +53,16 @@ class SxapiLaunch(SxapiBase):
         data = [
                 {
                     'external_object_id': item['external_object_id'],
-                    'details': item['details'],
-                    'is_tentative': item['is_tentative'],
-                    'launch_date_utc': item['launch_date_utc'],
-                    'launch_success': item['launch_success'],
+                    'details': item.get('details'),
+                    'is_tentative': item.get('is_tentative'),
+                    'launch_date_utc': item.get('launch_date_utc'),
+                    'launch_success': item.get('launch_success'),
                     'id_mission': item['id_mission'][0],
                     'id_rocket': item['rocket']['rocket']['id_rocket'],
-                    'static_fire_date_utc': item['static_fire_date_utc'],
-                    'tentative_max_precision': item['tentative_max_precision'],
+                    'static_fire_date_utc': item.get('static_fire_date_utc'),
+                    'telemetry_flight_club': None if not item.get('telemetry')
+                    else item.get('telemetry', {}).get('flight_club'),
+                    'tentative_max_precision': item.get('tentative_max_precision'),
                     'upcoming': item['upcoming'],
 
                 } for item in result_data
