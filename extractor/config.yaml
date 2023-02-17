@@ -1,5 +1,6 @@
 global:
-  sleep_time: 20
+  # Seconds to sleep between updates/retries
+  sleep_time: 1200
 db:
   entities:
     - mission
