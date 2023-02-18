@@ -9,7 +9,7 @@ RUN pwd && ls -lah \
     && pip install --no-cache-dir --upgrade -r ./ext-requirements.txt \
     && echo "Some tools ..." \
     && apt update && apt install -y iputils-ping \
-    && apt install -y supervisord \
+    && apt install -y supervisor \
     && ls -lah
 
 COPY ./collective /app/collective
