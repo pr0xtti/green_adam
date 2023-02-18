@@ -84,3 +84,20 @@ class EntityLaunch(EntityBase):
         logger.debug(f"Tables: affected: {tables_affected}")
         return None, tables_affected
 
+    def articles_count(self) -> int | None:
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.debug(f"Querying ...")
+        result = db.query(LaunchLinks).filter(
+            LaunchLinks.article_link.isnot(None)
+        ).count()
+        logger.debug(f"Returning {result}")
+        return result
+
+    def wikipedia_count(self) -> int | None:
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.debug(f"Querying ...")
+        result = db.query(LaunchLinks).filter(
+            LaunchLinks.wikipedia.isnot(None)
+        ).count()
+        logger.debug(f"Returning {result}")
+        return result

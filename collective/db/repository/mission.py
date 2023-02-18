@@ -100,3 +100,15 @@ class EntityMission(EntityBase):
                 logger.warning(f"Not found")
         except Exception as e:
             logger.critical(f"Failed: {e}")
+
+    def articles_count(self) -> int | None:
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        result = 0
+        logger.warning(f"Source unknown. Always returning {result}")
+        return result
+
+    def wikipedia_count(self) -> int | None:
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        result = 0
+        logger.warning(f"Source unknown. Always returning {result}")
+        return result
