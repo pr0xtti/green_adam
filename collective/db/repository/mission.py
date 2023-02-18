@@ -1,41 +1,14 @@
 # For logging
 import logging
-from sqlalchemy.orm import Session
 from pprint import pformat
 
 from core.config import APP_NAME
 from core.config import settings
-from db.models.mission import *
-from db.session import session as db
-from db.repository.entity_base import EntityBase
+from db.session import Session
 from db.database import table_empty
+from db.models.mission import *
+from db.repository.entity_base import EntityBase
 from sxapi.mission import *
-
-
-def fill_missions(missions: list) -> str | None:
-    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    # Check if we have no data
-    if not missions or not len(missions):
-        return "Missions is empty"
-    db_missions = []
-    for item in missions:
-        if item:
-            try:
-                db_missions.append(
-                    Mission(
-                        name=item['mission_name'],
-                        external_object_id=item['mission_id'],
-                    )
-                )
-            except KeyError as e:
-                logger.warning(f"Wrong data in: {item}")
-    logger.debug(f"Going to insert: {len(db_missions)} records")
-    db.add_all(db_missions)
-    db.commit()
-
-
-def update_data():
-    pass
 
 
 class EntityMission(EntityBase):
@@ -63,16 +36,16 @@ class EntityMission(EntityBase):
         tables_affected: int = 0
         for model_name in self.model_order:
             class_type = globals()[model_name]
-            err, check = table_empty(db=db, table_model=class_type)
+            err, check = table_empty(table_model=class_type)
             if not err and check:  # Table is empty
                 # Inserting data
                 logger.debug(f"Going to fill the table ...")
                 sxapi_class_type = globals()["Sxapi" + model_name]
                 self.fill_table(
-                    db=db,
+                    # db=db,
                     table_model=class_type,
                     sxapi_class_type=sxapi_class_type,
-                    db_class_name=model_name,
+                    # db_class_name=model_name,
                 )
                 tables_affected += 1
             else:  # Table isn't empty

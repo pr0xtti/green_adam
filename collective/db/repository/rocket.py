@@ -9,7 +9,7 @@ from db.models.rocket import (
     Rocket,
     RocketType,
 )
-from db.session import session as db
+from db.session import Session
 from db.repository.entity_base import EntityBase
 from db.database import table_empty
 from sxapi.rocket import *
@@ -32,7 +32,7 @@ class EntityRocket(EntityBase):
         logger.debug(f"Model: {model_name}")
         # Getting class type for a SQLAlchemy Model by class name
         class_type = globals()[model_name]
-        err, check = table_empty(db=db, table_model=class_type)
+        err, check = table_empty(table_model=class_type)
         if not err and check:  # Table is empty
             # Inserting data
             logger.debug(f"Going to fill the table ...")
@@ -62,16 +62,19 @@ class EntityRocket(EntityBase):
                 rocket = Rocket(**item)
                 db_data.append(rocket)
 
-
             logger.debug(f"Going to insert: {len(db_data)} records")
-            db.add_all(db_data)
+            db = Session()
             try:
+                db.add_all(db_data)
                 db.commit()
+                logger.debug(f"OK, inserted")
+                err = None
             except Exception as e:
+                db.rollback()
                 err = f"Failed to insert: {e}"
                 logger.critical(err)
-                return err
-            logger.debug(f"OK, inserted")
+            finally:
+                db.close()
 
             if err:
                 logger.critical(f"Failed to fill table for model: {model_name}")
@@ -112,8 +115,10 @@ class EntityRocket(EntityBase):
     def wikipedia_count(self) -> int | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"Querying ...")
-        result = db.query(Rocket).filter(
-            Rocket.wikipedia.isnot(None)
-        ).count()
+        result = None
+        with Session() as db:
+            result = db.query(Rocket).filter(
+                Rocket.wikipedia.isnot(None)
+            ).count()
         logger.debug(f"Returning {result}")
         return result

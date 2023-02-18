@@ -8,7 +8,6 @@ from core.config import APP_NAME
 from core.config import settings
 #
 from db.database import create_database_tables_if_needed, check_database_exists
-from db.repository.mission import fill_missions
 from db.repository.entity_base import EntityBase
 from db.repository.mission import EntityMission
 from db.repository.rocket import EntityRocket

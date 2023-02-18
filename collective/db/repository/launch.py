@@ -4,12 +4,12 @@ from pprint import pformat
 
 # For logging
 from core.config import APP_NAME, DETAILS
+from db.database import table_empty
+from db.session import Session
 from db.models.launch import Launch, LaunchLinks
-from db.session import session as db
 from db.repository.entity_base import EntityBase
 from db.repository.mission import EntityMission  # In use!
 from db.repository.rocket import EntityRocket  # In use!
-from db.database import table_empty
 from sxapi.launch import *
 
 
@@ -24,7 +24,7 @@ class EntityLaunch(EntityBase):
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         tables_affected: int = 0  # Counter
         logger.debug(f"Iterating through models: {self.model_order} ...")
-        err, check = table_empty(db=db, table_model=Launch)
+        err, check = table_empty(table_model=Launch)
         if not err and check:  # Table is empty
             # Inserting data
             logger.debug(f"Going to fill the table ...")
@@ -66,12 +66,18 @@ class EntityLaunch(EntityBase):
                     logger.critical(f"Failed to create instance of Lunch model: {e}")
 
             logger.debug(f"Going to insert: {len(db_data)} records")
-            db.add_all(db_data)
+            db = Session()
             try:
+                db.add_all(db_data)
                 db.commit()
+                err = None
             except Exception as e:
+                db.rollback()
                 err = f"Failed to insert: {e}"
                 logger.critical(err)
+            finally:
+                db.close()
+            if err:
                 return err, None
             logger.debug(f"OK, inserted")
             tables_affected += 1
@@ -87,17 +93,21 @@ class EntityLaunch(EntityBase):
     def articles_count(self) -> int | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"Querying ...")
-        result = db.query(LaunchLinks).filter(
-            LaunchLinks.article_link.isnot(None)
-        ).count()
+        result = None
+        with Session() as db:
+            result = db.query(LaunchLinks).filter(
+                LaunchLinks.article_link.isnot(None)
+            ).count()
         logger.debug(f"Returning {result}")
         return result
 
     def wikipedia_count(self) -> int | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"Querying ...")
-        result = db.query(LaunchLinks).filter(
-            LaunchLinks.wikipedia.isnot(None)
-        ).count()
+        result = None
+        with Session() as db:
+            result = db.query(LaunchLinks).filter(
+                LaunchLinks.wikipedia.isnot(None)
+            ).count()
         logger.debug(f"Returning {result}")
         return result

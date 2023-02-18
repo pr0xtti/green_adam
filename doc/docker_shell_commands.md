@@ -28,12 +28,11 @@ git add run.sh && git commit -m "run.sh updated" && git push
 ```shell
 docker compose down && docker image rm green_adam-svc && \
 cd .. && \
-sudo rm -rf green_adam && git clone https://github.com/pr0xtti/green_adam.git && \
+sudo rm -rf green_adam;  git clone https://github.com/pr0xtti/green_adam.git && \
 cd green_adam && \
 docker compose up -d && \
 echo "Sleeping ..." && \ 
-sleep 3 && \
-docker logs greenadam-services -f 2>&1
+docker logs greenadam-services -f 2>&1 | less -S
 ```
 
 ```shell

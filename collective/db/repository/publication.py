@@ -4,8 +4,7 @@ from pprint import pformat
 
 from core.config import APP_NAME
 
-# from ..extractor.db.database import table_empty
-from db.session import session as db
+from db.session import Session
 from db.database import table_empty
 from db.models.rocket import Rocket
 from db.models.launch import Launch, LaunchLinks
@@ -56,28 +55,35 @@ class PublicationEntity:
 
         # Add or update
         logger.debug(f"Adding or updating: {len(publications)} items")
-        result = db.query(Publication).count()
-        if result:
-            # Updating
-            for p in publications:
-                db.query(Publication).filter(
-                    Publication.entity == p.entity
-                ).update({
-                    Publication.articles: p.articles,
-                    Publication.wikipedia: p.wikipedia,
-                })
-            db.commit()
-            logger.debug(f"Updated")
-        else:
-            # Adding
-            try:
-                db.add_all(publications)
-                db.commit()
-            except Exception as e:
-                err = f"Failed to merge: {e}"
-                logger.critical(err)
-                return err, None
-            logger.debug(f"Added")
+        err = None
+        with Session() as db:
+            result = db.query(Publication).count()
+            if result:
+                # Updating
+                for p in publications:
+                    db.query(Publication).filter(
+                        Publication.entity == p.entity
+                    ).update({
+                        Publication.articles: p.articles,
+                        Publication.wikipedia: p.wikipedia,
+                    })
+                try:
+                    db.commit()
+                except:
+                    db.rollback()
+                logger.debug(f"Updated")
+            else:
+                # Adding
+                try:
+                    db.add_all(publications)
+                    db.commit()
+                    logger.debug(f"Added")
+                except Exception as e:
+                    db.rollback()
+                    err = f"Failed to merge: {e}"
+                    logger.critical(err)
+        if err:
+            return err, None
         return None, f"len(publications)"
 
     @staticmethod
@@ -86,7 +92,7 @@ class PublicationEntity:
         logger.debug(f"Checking if database isn't empty ...")
         tables_to_check = [LaunchLinks, Rocket]
         for table_model in tables_to_check:
-            err, result = table_empty(db=db, table_model=table_model)
+            err, result = table_empty(table_model=table_model)
             if not err and not result:
                 # No error and (some) table has data
                 return True

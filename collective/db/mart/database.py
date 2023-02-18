@@ -8,7 +8,7 @@ from sqlalchemy.orm import Session
 from core.config import APP_NAME
 from core.config import settings
 from db.mart.base_class import BaseMartModel
-from db.session import engine, session as db
+from db.session import engine
 
 
 def create_database_tables_if_needed() -> str | None:

@@ -7,6 +7,7 @@ from core.tool import camel_to_snake, snake_to_camel
 
 from sqlalchemy.orm import Session
 from db.base_class import Base
+from db.session import engine
 
 
 class EntityBase:
@@ -47,10 +48,8 @@ class EntityBase:
 
     @staticmethod
     def fill_table(
-            db: Session,
             table_model: Base,
             sxapi_class_type,
-            db_class_name: str
     ) -> str | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"Instantiating: {sxapi_class_type}")
@@ -67,11 +66,17 @@ class EntityBase:
             db_data.append(table_model(**item))
         logger.debug(f"OK, made: {len(db_data)}")
         logger.debug(f"Going to insert: {len(db_data)} records")
-        db.add_all(db_data)
+        err = None
+        db = Session()
         try:
+            db.add_all(db_data)
             db.commit()
+            logger.debug(f"OK, inserted")
         except Exception as e:
+            db.rollback()
             err = f"Failed to insert: {e}"
             logger.critical(err)
+        finally:
+            db.close()
+        if err:
             return err
-        logger.debug(f"OK, inserted")
