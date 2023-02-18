@@ -3,6 +3,7 @@ global:
     # Seconds to sleep between updates/retries
     sleep_time: 1200
   martmaker:
+    # Seconds to sleep between updates/retries
     sleep_time: 30
 db:
   entities:
@@ -17,19 +18,6 @@ db:
     rocket:
         order:
           - rocket
-#          - rocket_type
-#          - rocket_engines_type
-#          - rocket_engines_propellant_type
-#          - rocket:
-#              "one-to-one":
-#                - rocket_engines
-#                - rocket_first_stage
-#                - rocket_second_stage
-#                - rocket_stages
-#          - rocket_payload_weights_type
-#          - rocket_payload_weights
     launch:
         order:
           - launch
-#          - launch_links
-#          - launch_links_flikr_images

@@ -26,7 +26,7 @@
 
 # Storage Layers
 
-Layers = schemes
+Layers = schemes in Postgres
 
 - Staging - raw data from different systems.
 - Corporation Data Model: Data Vault, Inman
@@ -37,7 +37,7 @@ Layers = schemes
 - Conceptual Model
 
 
-![img_3.png](img_3.png)
+![img_3.png](assets/img_3.png)
 
 
 
@@ -54,18 +54,6 @@ Layers = schemes
 ![](assets/2023-02-11-20-56-00-image.png)
 
 
-
-
-
-Naming convention:
-
-
-
-Dimension:
-
-    calendar_dim
-
-Staging
 
 
 
