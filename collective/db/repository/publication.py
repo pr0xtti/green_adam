@@ -6,6 +6,7 @@ from core.config import APP_NAME
 
 # from ..extractor.db.database import table_empty
 from db.session import session as db
+from db.database import table_empty
 from db.models.rocket import Rocket
 from db.models.launch import Launch, LaunchLinks
 from db.models.publication import Publication
@@ -47,13 +48,14 @@ class PublicationEntity:
         # db = Session()
         publications_dict = self.prepare_data()
         logger.debug(f"Prepared data: {pformat(publications_dict)}")
+
         publications = [
             Publication(**item) for item in publications_dict
         ]
-
         logger.debug(f"Data: {publications}")
-        logger.debug(f"Adding or updating: {len(publications)} items")
+
         # Add or update
+        logger.debug(f"Adding or updating: {len(publications)} items")
         result = db.query(Publication).count()
         if result:
             # Updating
@@ -77,3 +79,15 @@ class PublicationEntity:
                 return err, None
             logger.debug(f"Added")
         return None, f"len(publications)"
+
+    @staticmethod
+    def data_available() -> bool:
+        logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+        logger.debug(f"Checking if database isn't empty ...")
+        tables_to_check = [LaunchLinks, Rocket]
+        for table_model in tables_to_check:
+            err, result = table_empty(db=db, table_model=table_model)
+            if not err and not result:
+                # No error and (some) table has data
+                return True
+        return False

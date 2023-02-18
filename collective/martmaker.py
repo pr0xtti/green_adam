@@ -14,7 +14,7 @@ from db.database import check_database_availability
 
 # Business logic
 from service.common import make_nap
-from service.mart import make_mart_publication
+from service.mart import make_mart_publication, data_available
 
 
 def setup_logging():
@@ -44,17 +44,20 @@ def main():
         make_nap(sleep_time)
 
     while True:
-        logger.info(f"Making a publication mart ...")
-        make_mart_publication()
-        break
+        if data_available():
+            logger.info(f"Making a publication mart ...")
+            make_mart_publication()
+        else:
+            sleep_time = 10
+            logger.warning("Source database is empty. Sleeping ...")
+            make_nap(sleep_time)
         err = None
         if not err:
             logger.info(f"OK. Sleeping till next update ...")
-            # Temporary breaking here
         else:
-            logger.critical('Failed to get data. Sleeping till next retry ...')
-        # make_nap()
-        time.sleep(10)
+            logger.critical("Failed to get data. Sleeping till next retry ...")
+        sleep_time = 30
+        make_nap(sleep_time)
 
 if __name__ == '__main__':
     main()
