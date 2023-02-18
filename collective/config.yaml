@@ -1,10 +1,10 @@
 global:
   extractor:
     # Seconds to sleep between updates/retries
-    sleep_time: 1200
+    sleep_time: 300
   martmaker:
     # Seconds to sleep between updates/retries
-    sleep_time: 30
+    sleep_time: 60
 db:
   entities:
     - mission

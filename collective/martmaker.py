@@ -52,7 +52,7 @@ def main():
             make_nap(sleep_time)
         err = None
         if not err:
-            logger.info(f"Done. Mart made")
+            logger.info(f"Done. Mart publication made")
         else:
             logger.critical("Failed to get data")
         logger.info(f"Sleeping till next update")
