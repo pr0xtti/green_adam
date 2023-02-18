@@ -1,9 +1,10 @@
-# 
+# This is a solution for the challenge 
 
 # Task
 
 https://drive.google.com/drive/folders/1-Xeh7lR6G_zPe-EQaOH0AKtCLNAPjTl8
 
+## Task
 - https://docs.google.com/document/d/1HSSnsVXZ0pigNSo9aFerq5sFD7BvWsxp/edit
 - https://docs.google.com/document/d/10Hc8UN-vwCFa-6gO-8Lra1HUCkA6JteV/edit
 
@@ -35,13 +36,39 @@ Docker, и RDBMS. Поэтому мы решили дать тебе типич�
 
 # Data
 
-T4:
-
 - missions
 - rockets
 - launches
 
 # Solution
+
+## Install
+
+Download and start with docker compose:
+
+```shell
+clone https://github.com/pr0xtti/green_adam.git && \
+cd green_adam && \
+docker compose up -d
+```
+It will start two containers:
+```shell
+rin@lab-1:~/dev/green_adam/green_adam$ docker ps | egrep '^CONT|greenadam'
+CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS                                         NAMES
+a9063a5d0ad7   green_adam-svc   "/usr/bin/supervisord"   3 minutes ago   Up 3 minutes                                                 greenadam-services
+039d31e97b4d   postgres         "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:55400->5432/tcp, :::55400->5432/tcp   greenadam-postgres
+rin@lab-1:~/dev/green_adam/green_adam$ 
+```
+
+View logs in container:
+
+```shell
+# Like tail -f
+docker logs greenadam-services -f 2>&1
+
+# All with less
+docker logs greenadam-services -n all 2>&1 | less
+```
 
 # Solving
 
@@ -70,5 +97,51 @@ def get_data_and_save()
 ## Structure
 
 ```
+.
+├── collective
+│   ├── core
+│   │   ├── config.py
+│   │   └── tool.py
+│   ├── db
+│   │   ├── mart
+│   │   │   ├── base_class.py
+│   │   │   └── database.py
+│   │   ├── models
+│   │   │   ├── launch.py
+│   │   │   ├── mission.py
+│   │   │   ├── publication.py
+│   │   │   └── rocket.py
+│   │   ├── repository
+│   │   │   ├── entity_base.py
+│   │   │   ├── launch.py
+│   │   │   ├── mission.py
+│   │   │   ├── publication.py
+│   │   │   └── rocket.py
+│   │   ├── base_class.py
+│   │   ├── database.py
+│   │   └── session.py
+│   ├── service
+│   │   ├── common.py
+│   │   └── mart.py
+│   ├── sxapi
+│   │   ├── base.py
+│   │   ├── launch.py
+│   │   ├── mission.py
+│   │   ├── rocket.py
+│   │   └── session.py
+│   ├── config.yaml
+│   ├── extractor.py
+│   ├── logging.yaml
+│   ├── martmaker.py
+│   └── requirements.txt
+├── doc
+│   ├── Data_Model.drawio
+│   ├── General.drawio
+├── docker-compose.yaml
+├── Dockerfile
+├── extractor.sh
+├── martmaker.sh
+├── README.md
+└── supervisord.conf
 
 ```
