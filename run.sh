@@ -1,4 +1,4 @@
 #!/bin/bash
 # Runs all services
-cd /app/extractor
+cd /app/collective
 python main.py

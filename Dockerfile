@@ -2,7 +2,7 @@ FROM python:3.10
 
 WORKDIR /app
 
-COPY ./extractor/requirements.txt ./ext-requirements.txt
+COPY ./collective/requirements.txt ./ext-requirements.txt
 
 RUN pwd && ls -lah \
     #&& echo "Creating venv ..." \
@@ -17,7 +17,7 @@ RUN pwd && ls -lah \
     && apt update && apt install -y iputils-ping \
     && ls -lah
 
-COPY ./extractor /app/extractor
+COPY ./collective /app/collective
 COPY ./run.sh /app/
 
 CMD ["/bin/bash", "/app/run.sh"]
