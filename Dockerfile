@@ -13,7 +13,9 @@ RUN pwd && ls -lah \
     && ls -lah
 
 COPY ./collective /app/collective
-COPY ./supervisord.conf /etc/supervisord.conf
-COPY ./run.sh /app/
+COPY ./supervisord.conf /etc/supervisor/conf.d/greenadam.conf
+COPY ./extractor.sh /app/extractor.sh
+COPY ./martmaker.sh /app/martmaker.sh
+#COPY ./run.sh /app/
 
 CMD ["/usr/bin/supervisord"]
