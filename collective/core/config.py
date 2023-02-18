@@ -2,6 +2,8 @@
 import logging
 # For environment variables
 import os
+from os import path
+import sys
 from pathlib import Path
 from dotenv import load_dotenv
 # For connection string
@@ -11,8 +13,22 @@ import yaml
 from pprint import pformat
 
 
+def get_app_name():
+    try:
+        return APP_NAME
+    except NameError:
+        try:
+            name = path.abspath(
+                str(sys.modules['__main__'].__file__)
+            ).split("/")[-1][:-3]
+            return name
+        except:
+            return "service"
+
+
 # Application name
-APP_NAME: str = "extractor"
+# APP_NAME: str = "extractor"
+APP_NAME: str = get_app_name()
 
 
 # Make a connection string
