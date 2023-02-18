@@ -87,7 +87,7 @@ class EntityLaunch(EntityBase):
             pass
             logger.critical(f"It's not implemented. Doing nothing")
 
-        logger.debug(f"Tables: affected: {tables_affected}")
+        logger.debug(f"Affected: {tables_affected}")
         return None, tables_affected
 
     def articles_count(self) -> int | None:

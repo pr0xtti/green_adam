@@ -84,7 +84,7 @@ class PublicationEntity:
                     logger.critical(err)
         if err:
             return err, None
-        return None, f"len(publications)"
+        return None, len(publications)
 
     @staticmethod
     def data_available() -> bool:

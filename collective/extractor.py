@@ -37,20 +37,23 @@ def main():
         if check_database_availability():
             break
         sleep_time = 5
-        logger.info(f"Database isn't available. Sleeping for {sleep_time} sec ...")
+        logger.warning(f"Database isn't available. "
+                       f"Sleeping for {sleep_time} sec ...")
         make_nap(sleep_time)
 
     while True:
         # Data append or update hasn't implemented yet
-        logger.debug('Clearing database ...')
+        logger.info('Clearing the database ...')
         delete_all_tables()
         logger.info('Going to get SpaceX data ...')
         err = get_space_data_save_into_db()
         if not err:
-            logger.info(f"OK. Sleeping till next update ...")
+            logger.info(f"Done. Data gathered and saved to database")
+            logger.info(f"Sleeping till next update ...")
             # Temporary breaking here
         else:
-            logger.critical('Failed to get data. Sleeping till next retry ...')
+            logger.critical('Failed')
+            logger.info('Sleeping till next retry ...')
         make_nap()
 
 

@@ -44,7 +44,7 @@ def main():
 
     while True:
         if data_available():
-            logger.info(f"Making a publication mart ...")
+            logger.info(f"Making publication mart ...")
             make_mart_publication()
         else:
             sleep_time = 10
@@ -52,9 +52,10 @@ def main():
             make_nap(sleep_time)
         err = None
         if not err:
-            logger.info(f"OK. Sleeping till next update ...")
+            logger.info(f"Done. Mart made")
         else:
-            logger.critical("Failed to get data. Sleeping till next retry ...")
+            logger.critical("Failed to get data")
+        logger.info(f"Sleeping till next update ...")
         make_nap()
 
 

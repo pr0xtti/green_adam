@@ -86,18 +86,19 @@ class EntityRocket(EntityBase):
             pass
             logger.critical(f"It's not implemented. Doing nothing")
 
-        logger.debug(f"Tables: affected: {tables_affected}, "
-                     f"total: {len(self.model_order)}")
+        logger.debug(f"Affected: {tables_affected}")
         return None, tables_affected
 
     @staticmethod
     def get_id_by_ext_id(ext_id: str):
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         logger.debug(f"Executing db query ...")
+        db = Session()
         try:
             mission = db.query(Rocket).filter_by(
                 external_object_id=ext_id
             ).first()
+            db.close()
             if mission:
                 logger.debug(f"OK, got result")
                 return mission.id
@@ -105,6 +106,7 @@ class EntityRocket(EntityBase):
                 logger.warning(f"Not found")
         except Exception as e:
             logger.critical(f"Failed: {e}")
+            db.close()
 
     def articles_count(self) -> int | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")

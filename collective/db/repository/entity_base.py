@@ -5,9 +5,9 @@ from core.config import APP_NAME
 from core.config import settings
 from core.tool import camel_to_snake, snake_to_camel
 
-from sqlalchemy.orm import Session
+# from sqlalchemy.orm import Session
 from db.base_class import Base
-from db.session import engine
+from db.session import Session
 
 
 class EntityBase:
