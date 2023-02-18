@@ -49,11 +49,11 @@ def main():
         err = get_space_data_save_into_db()
         if not err:
             logger.info(f"Done. Data gathered and saved to database")
-            logger.info(f"Sleeping till next update ...")
+            logger.info(f"Sleeping till next update")
             # Temporary breaking here
         else:
             logger.critical('Failed')
-            logger.info('Sleeping till next retry ...')
+            logger.info('Sleeping till next retry')
         make_nap()
 
 

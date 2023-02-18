@@ -55,7 +55,7 @@ def main():
             logger.info(f"Done. Mart made")
         else:
             logger.critical("Failed to get data")
-        logger.info(f"Sleeping till next update ...")
+        logger.info(f"Sleeping till next update")
         make_nap()
 
 

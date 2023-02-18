@@ -16,7 +16,7 @@ from db.repository.launch import EntityLaunch
 
 def make_nap(sleep_time: int = settings.SLEEP_TIME):
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    logger.debug(f"Sleeping for {sleep_time} sec")
+    logger.info(f"Sleeping for {sleep_time} sec ...")
     time.sleep(sleep_time)
 
 

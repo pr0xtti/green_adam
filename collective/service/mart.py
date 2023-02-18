@@ -43,6 +43,6 @@ def data_available():
 
 def make_nap(sleep_time: int = settings.SLEEP_TIME_MARTMAKER):
     logger = logging.getLogger(f"{APP_NAME}.{__name__}")
-    logger.debug(f"Sleeping for {sleep_time} sec")
+    logger.info(f"Sleeping for {sleep_time} sec ...")
     time.sleep(sleep_time)
 

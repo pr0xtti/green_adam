@@ -79,11 +79,11 @@ class EntityMission(EntityBase):
     def articles_count(self) -> int | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         result = 0
-        logger.warning(f"Source unknown. Always returning {result}")
+        logger.debug(f"Source unknown. Always returning {result}")
         return result
 
     def wikipedia_count(self) -> int | None:
         logger = logging.getLogger(f"{APP_NAME}.{__name__}")
         result = 0
-        logger.warning(f"Source unknown. Always returning {result}")
+        logger.debug(f"Source unknown. Always returning {result}")
         return result
