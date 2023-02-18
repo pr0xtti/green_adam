@@ -3,7 +3,7 @@ import logging
 import time
 
 # For application settings
-from core.config import APP_NAME
+from core.config import APP_NAME, settings
 from db.mart.database import create_database_tables_if_needed
 from db.repository.publication import PublicationEntity
 
@@ -39,4 +39,8 @@ def data_available():
     publication = PublicationEntity()
     return publication.data_available()
 
+def make_nap(sleep_time: int = settings.SLEEP_TIME_MARTMAKER):
+    logger = logging.getLogger(f"{APP_NAME}.{__name__}")
+    logger.debug(f"Sleeping for {sleep_time} sec")
+    time.sleep(sleep_time)
 

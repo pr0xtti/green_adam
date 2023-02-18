@@ -103,8 +103,10 @@ class Settings:
         # Setting other params from local configuration file for the project
         with open(CONFIG_FILE, 'r') as f:
             conf = yaml.safe_load(f.read())
-        self.SLEEP_TIME = int(conf['global']['sleep_time'])
-        logger.debug(f"conf['db']: {pformat(conf['db'])}")
+        self.SLEEP_TIME = int(conf['global']['extractor']['sleep_time'])
+        self.SLEEP_TIME_MARTMAKER = int(conf['global']['martmaker']['sleep_time'])
+
+        logger.log(DETAILS, f"conf['db']: {pformat(conf['db'])}")
         # print(f"conf['db']: {pformat(conf['db'])}")
         self.db = conf['db']
 

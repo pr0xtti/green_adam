@@ -13,8 +13,7 @@ from core.config import LOGGING_DEFAULT_LEVEL
 from db.database import check_database_availability
 
 # Business logic
-from service.common import make_nap
-from service.mart import make_mart_publication, data_available
+from service.mart import make_mart_publication, data_available, make_nap
 
 
 def setup_logging():
@@ -56,8 +55,8 @@ def main():
             logger.info(f"OK. Sleeping till next update ...")
         else:
             logger.critical("Failed to get data. Sleeping till next retry ...")
-        sleep_time = 30
-        make_nap(sleep_time)
+        make_nap()
+
 
 if __name__ == '__main__':
     main()
