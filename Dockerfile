@@ -14,8 +14,8 @@ RUN pwd && ls -lah \
     && echo "Some tools ..." \
     && apt update && apt install -y iputils-ping \
     && apt install -y supervisor \
-    && chmod +x /app/extractor.sh \
-    && chmod +x /app/martmaker.sh \
+    && sudo chmod +x /app/extractor.sh \
+    && sudo chmod +x /app/martmaker.sh \
     && ls -lah
 
 #COPY ./run.sh /app/
