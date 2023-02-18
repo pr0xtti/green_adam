@@ -5,19 +5,15 @@ WORKDIR /app
 COPY ./collective/requirements.txt ./ext-requirements.txt
 
 RUN pwd && ls -lah \
-    #&& echo "Creating venv ..." \
-    #&& python -m venv ext-venv \
-    #&& echo "Activating venv ..." \
-    #&& . ext-venv/bin/activate \
     && echo "pip install -r ..." \
     && pip install --no-cache-dir --upgrade -r ./ext-requirements.txt \
-    #&& echo "Deactivating ..." \
-    #&& deactivate \
     && echo "Some tools ..." \
     && apt update && apt install -y iputils-ping \
+    && apt install -y supervisord \
     && ls -lah
 
 COPY ./collective /app/collective
+COPY ./supervisord.conf /etc/supervisord.conf
 COPY ./run.sh /app/
 
-CMD ["/bin/bash", "/app/run.sh"]
+CMD ["/usr/bin/supervisord"]
