@@ -47,17 +47,17 @@ Docker, и RDBMS. Поэтому мы решили дать тебе типич�
 Download and start with docker compose:
 
 ```shell
-clone https://github.com/pr0xtti/green_adam.git && \
-cd green_adam && \
+clone https://github.com/pr0xtti/greenadam.git && \
+cd greenadam && \
 docker compose up -d
 ```
 It will start two containers:
 ```shell
-rin@lab-1:~/dev/green_adam/green_adam$ docker ps | egrep '^CONT|greenadam'
+rin@lab-1:~/dev/greenadam/greenadam$ docker ps | egrep '^CONT|greenadam'
 CONTAINER ID   IMAGE            COMMAND                  CREATED         STATUS         PORTS                                         NAMES
-a9063a5d0ad7   green_adam-svc   "/usr/bin/supervisord"   3 minutes ago   Up 3 minutes                                                 greenadam-services
+a9063a5d0ad7   greenadam-svc   "/usr/bin/supervisord"   3 minutes ago   Up 3 minutes                                                 greenadam-services
 039d31e97b4d   postgres         "docker-entrypoint.s…"   3 minutes ago   Up 3 minutes   0.0.0.0:55400->5432/tcp, :::55400->5432/tcp   greenadam-postgres
-rin@lab-1:~/dev/green_adam/green_adam$ 
+rin@lab-1:~/dev/greenadam/greenadam$ 
 ```
 
 View logs in container:
