@@ -49,8 +49,8 @@ https://docs.google.com/document/d/10Hc8UN-vwCFa-6gO-8Lra1HUCkA6JteV/edit
      - Gathers data from Postgres DB schema `staging`
      - Makes a Data Mart `publication` and stores it in schema `marts`
 - Designed Data Model with Data Marts:
-  - [Data Model (drawio)](doc/Application_Data_Flow.drawio) 
-  - [Data Model (jpg)](doc/Application_Data_Flow.jpg)
+  - [Data Model (drawio)](doc/Data_Model.drawio) 
+  - [Data Model (jpg)](doc/Data_Model.jpg)
 - Project published on github: https://github.com/pr0xtti/greenadam
 
 
@@ -58,14 +58,17 @@ https://docs.google.com/document/d/10Hc8UN-vwCFa-6gO-8Lra1HUCkA6JteV/edit
 Application can be started with docker compose.
 Docker compose will run this hierarchy:
 
-- greenadam-services (container, will be build)
-  - supervisord
-    - extractor.sh
-      - ./collective/extractor.py
-    - martmaker.sh
-      - ./collective/martmaker.py
-- greenadam-postgres (container postgres)
-  - postgres
+```
+greenadam-services (container, will be build)
+    supervisord
+        extractor.sh
+            ./collective/extractor.py
+        martmaker.sh
+            ./collective/martmaker.py
+
+greenadam-postgres (container postgres)
+    postgres
+```
 
 All python source located in folder collective.
 Supervisord runs in nodaemon mode and outputs from services to stdout and stderr.
