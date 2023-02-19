@@ -4,7 +4,7 @@
 
 https://docs.google.com/document/d/1HSSnsVXZ0pigNSo9aFerq5sFD7BvWsxp/edit
 
-## Answers
+## Solution
 
 ### 1.
 Ошибка на сервере принявшем запрос. Нужно смотреть логи сервера.
