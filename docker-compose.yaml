@@ -27,8 +27,7 @@ services:
     ports:
       # Please, set external_port that suits you
       # "external_port:internal_port"
-#      - "55400:5432"
-      - DB_EXTERNAL_PORT: "5432"
+      - "55400:5432"
 
 volumes:
   pgdata:
